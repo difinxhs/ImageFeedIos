@@ -71,6 +71,7 @@
 				15707DF72C3C63ED005093BB /* AppDelegate.swift */,
 				15707DF92C3C63ED005093BB /* SceneDelegate.swift */,
 				15CB5A722C3EEB9A00CA5CD7 /* View */,
+				15CB5A752C3EFB6A00CA5CD7 /* ImageList */,
 				15181C2C2C3DA24800EFF010 /* Resources */,
 			);
 			path = ImageFeedIos;
@@ -79,11 +80,18 @@
 		15CB5A722C3EEB9A00CA5CD7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				15707DFB2C3C63ED005093BB /* ImagesListViewController.swift */,
 				15707DFD2C3C63ED005093BB /* Main.storyboard */,
-				15CB5A732C3EFA7D00CA5CD7 /* ImageListCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		15CB5A752C3EFB6A00CA5CD7 /* ImageList */ = {
+			isa = PBXGroup;
+			children = (
+				15707DFB2C3C63ED005093BB /* ImagesListViewController.swift */,
+				15CB5A732C3EFA7D00CA5CD7 /* ImageListCell.swift */,
+			);
+			path = ImageList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
