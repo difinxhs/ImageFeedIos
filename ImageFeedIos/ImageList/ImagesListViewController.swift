@@ -1,6 +1,7 @@
 import UIKit
 
 final class ImagesListViewController: UIViewController {
+    
     @IBOutlet private var tableView: UITableView!
     
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
@@ -12,25 +13,7 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
-extension ImagesListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let index = photosName.count
-        return index
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
-        
-        guard let imageListCell = cell as? ImagesListCell else {
-            return UITableViewCell()
-        }
-        
-        configCell(for: imageListCell, with: indexPath)
-        
-        return imageListCell
-    }
-}
-
+//MARK: ConfigCell
 extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         //индекс ячейки
@@ -56,7 +39,7 @@ extension ImagesListViewController {
         let currentDate = dateFormatter.string(from: Date())
         cell.dateLabel.text = currentDate
         
-        if index % 2 != 0 {
+        if index % 2 == 0 {
             cell.likeButton.setImage(UIImage(named: "LikeButtonOn"), for: .normal)
         } else {
             cell.likeButton.setImage(UIImage(named: "LikeButtonOff"), for: .normal)
@@ -64,6 +47,27 @@ extension ImagesListViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
+extension ImagesListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let index = photosName.count
+        return index
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath)
+        
+        guard let imageListCell = cell as? ImagesListCell else {
+            return UITableViewCell()
+        }
+        
+        configCell(for: imageListCell, with: indexPath)
+        
+        return imageListCell
+    }
+}
+
+// MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
