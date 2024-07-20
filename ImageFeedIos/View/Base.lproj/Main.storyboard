@@ -81,7 +81,6 @@
                                             <outlet property="dateLabel" destination="zZ7-qv-kLf" id="ziM-Hc-vPU"/>
                                             <outlet property="imagePhotoView" destination="UHT-CC-7rY" id="dyT-OZ-Qff"/>
                                             <outlet property="likeButton" destination="sdE-8c-JJO" id="B05-ZQ-GH7"/>
-                                            <segue destination="mek-MM-uCh" kind="show" id="sWf-xR-XcD"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -103,6 +102,7 @@
                     <navigationItem key="navigationItem" id="adk-pe-DFY"/>
                     <connections>
                         <outlet property="tableView" destination="0ZD-Gs-GgP" id="Fuw-16-5ad"/>
+                        <segue destination="mek-MM-uCh" kind="show" identifier="ShowSingleImage" id="cuO-F6-feB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -242,7 +242,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="tuE-3K-vBu">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tuE-3K-vBu">
                                 <rect key="frame" x="0.0" y="48" width="414" height="765"/>
                             </imageView>
                         </subviews>
@@ -266,7 +266,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0" width="1600" height="1059"/>
         <image name="ExitButton" width="24" height="24"/>
         <image name="LikeButtonOff" width="42" height="42"/>
         <image name="UnderDataLabelGradient" width="288" height="30"/>
