@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CK9-Xp-h0n">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -107,10 +107,98 @@
             </objects>
             <point key="canvasLocation" x="60.869565217391312" y="92.410714285714278"/>
         </scene>
+        <!--Profile-->
+        <scene sceneID="MJb-Lv-ODJ">
+            <objects>
+                <viewController title="Profile" id="CK9-Xp-h0n" customClass="ProfileViewController" customModule="ImageFeedIos" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fw9-Iw-i0s">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uh9-0A-dZx">
+                                <rect key="frame" x="16" y="80" width="382" height="153.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="260" translatesAutoresizingMaskIntoConstraints="NO" id="Niq-k1-uJx">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="70"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UserPic" translatesAutoresizingMaskIntoConstraints="NO" id="Shf-VG-zeA">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="M98-Th-yyP"/>
+                                                    <constraint firstAttribute="width" secondItem="Shf-VG-zeA" secondAttribute="height" multiplier="1:1" id="mXP-V7-N0a"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F4D-ET-Qar">
+                                                <rect key="frame" x="330" y="13" width="44" height="44"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="F4D-ET-Qar" secondAttribute="height" multiplier="1:1" id="3lf-QI-UoB"/>
+                                                    <constraint firstAttribute="height" constant="44" id="fnJ-ia-Nq6"/>
+                                                </constraints>
+                                                <color key="tintColor" name="YP Red"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="ExitButton"/>
+                                                <connections>
+                                                    <action selector="exitButtonDidTap:" destination="CK9-Xp-h0n" eventType="touchUpInside" id="D3C-BC-ATV"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина Новикова" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="72D-vM-ZcF">
+                                        <rect key="frame" x="0.0" y="78" width="233.5" height="27.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                        <color key="textColor" name="YP White"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ekaterina_nov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jon-lh-4Ah">
+                                        <rect key="frame" x="0.0" y="113.5" width="97" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" name="YP Gray"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, World!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uba-Nr-gaa">
+                                        <rect key="frame" x="0.0" y="137.5" width="78" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" name="YP White"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rBO-c5-v6A"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="uh9-0A-dZx" firstAttribute="top" secondItem="rBO-c5-v6A" secondAttribute="top" constant="32" id="8sL-dh-Dfb"/>
+                            <constraint firstItem="rBO-c5-v6A" firstAttribute="trailing" secondItem="uh9-0A-dZx" secondAttribute="trailing" constant="16" id="AZ2-cG-xTc"/>
+                            <constraint firstItem="uh9-0A-dZx" firstAttribute="leading" secondItem="rBO-c5-v6A" secondAttribute="leading" constant="16" id="FLM-CF-uIp"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="exitButton" destination="F4D-ET-Qar" id="aba-QD-G4P"/>
+                        <outlet property="userDescription" destination="uba-Nr-gaa" id="L0V-oT-vLm"/>
+                        <outlet property="userName" destination="72D-vM-ZcF" id="KJh-Nb-K94"/>
+                        <outlet property="userPic" destination="Shf-VG-zeA" id="c6n-Tr-ONt"/>
+                        <outlet property="userTag" destination="Jon-lh-4Ah" id="zhN-2m-5wR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kuE-xU-ghF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="908.69565217391312" y="91.741071428571431"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="ExitButton" width="24" height="24"/>
         <image name="LikeButtonOff" width="42" height="42"/>
         <image name="UnderDataLabelGradient" width="288" height="30"/>
+        <image name="UserPic" width="70" height="70"/>
+        <namedColor name="YP Black">
+            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="YP Gray">
+            <color red="0.90196078431372551" green="0.90980392156862744" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="YP Red">
+            <color red="0.96078431372549022" green="0.41960784313725491" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
