@@ -7,7 +7,6 @@ final class ProfileViewController: UIViewController {
     @IBOutlet weak var userDescription: UILabel!
     @IBOutlet weak var exitButton: UIButton!
     
-    
     @IBAction func exitButtonDidTap(_ sender: Any) {
     }
 }
