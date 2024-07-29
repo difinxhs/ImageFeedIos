@@ -1,11 +1,11 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    @IBOutlet weak var userPic: UIImageView!
-    @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var userTag: UILabel!
-    @IBOutlet weak var userDescription: UILabel!
-    @IBOutlet weak var exitButton: UIButton!
+    @IBOutlet private weak var userPic: UIImageView!
+    @IBOutlet private weak var userName: UILabel!
+    @IBOutlet private weak var userTag: UILabel!
+    @IBOutlet private weak var userDescription: UILabel!
+    @IBOutlet private weak var exitButton: UIButton!
     
     private var label: UILabel?
     
