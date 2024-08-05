@@ -2,15 +2,17 @@ import UIKit
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private init() {}
+    //init() {}
+    
+    weak var delegate: OAuth2ServiceDelegate?
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {
          let baseURL = URL(string: "https://unsplash.com")!
          let url = URL(
              string: "/oauth/token"
-             + "?client_id=\(Constants.accessKey)"
-             + "&&client_secret=\(Constants.secretKey)"
-             + "&&redirect_uri=\(Constants.redirectURI)"
+             + "?client_id=\(accessKey)"
+             + "&&client_secret=\(secretKey)"
+             + "&&redirect_uri=\(redirectURI)"
              + "&&code=\(code)"
              + "&&grant_type=authorization_code",
              relativeTo: baseURL
@@ -33,6 +35,7 @@ final class OAuth2Service {
                         let token = responseBody.accessToken
                         OAuth2TokenStorage().token = token
                         completion(.success(token))
+                        self.delegate?.didAuthenticate(token: token)
                     } catch {
                         print("Failed to decode JSON: \(error)")
                         completion(.failure(error))
@@ -43,22 +46,23 @@ final class OAuth2Service {
                 }
             }
         }
-        
         task.resume()
     }
+    
+    struct OAuthTokenResponseBody: Decodable {
+        let accessToken: String
+        let tokenType: String
+        let scope: String
+        let createdAt: Int
 
-}
-
-struct OAuthTokenResponseBody: Decodable {
-    let accessToken: String
-    let tokenType: String
-    let scope: String
-    let createdAt: Int
-
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case tokenType = "token_type"
-        case scope
-        case createdAt = "created_at"
+        enum CodingKeys: String, CodingKey {
+            case accessToken = "access_token"
+            case tokenType = "token_type"
+            case scope
+            case createdAt = "created_at"
+        }
     }
+
 }
+
+

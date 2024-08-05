@@ -68,28 +68,6 @@ final class WebViewViewController: UIViewController {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
-    
-    
-    //Запрос на сервер с аутентификацией
-    private func loadAuthView() {
-        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            return
-        }
-
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
-
-        guard let url = urlComponents.url else {
-            return
-        }
-
-        let request = URLRequest(url: url)
-        webView.load(request)
-        }
 }
 //MARK: WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
@@ -98,25 +76,41 @@ extension WebViewViewController: WKNavigationDelegate {
         decidePolicyFor navigationAction: WKNavigationAction,
         decisionHandler: @escaping (WKNavigationActionPolicy) -> Void
     ) {
-        if let code = code(from: navigationAction) {
-            //TODO: process code
+        if let code = fetchCode(url: navigationAction.request.url) {
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
         }
     }
+}
     
-    private func code(from navigationAction: WKNavigationAction) -> String? {
-        if
-            let url = navigationAction.request.url,
-            let urlComponents = URLComponents(string: url.absoluteString),
-            urlComponents.path == "/oauth/authorize/native",
-            let items = urlComponents.queryItems,
-            let codeItem = items.first(where: {$0.name == "code"})
-        {
-            return codeItem.value
-        } else {
-            return nil
+
+private extension WebViewViewController {
+    
+    //Запрос на сервер с аутентификацией
+    func loadAuthView() {
+        var components = URLComponents(string: "https://unsplash.com/oauth/authorize")
+        components?.queryItems = [
+            URLQueryItem(name: "client_id", value: accessKey),
+            URLQueryItem(name: "redirect_uri", value: redirectURI),
+            URLQueryItem(name: "response_type", value: "code"),
+            URLQueryItem(name: "scope", value: accessScope)
+        ]
+        
+        if let url = components?.url {
+            let request = URLRequest(url: url)
+            webView.load(request)
         }
     }
+    
+    func fetchCode(url: URL?) -> String? {
+        guard let url = url,
+              let components = URLComponents(string: url.absoluteString),
+              components.path == "/oauth/authorize/native",
+              let item = components.queryItems?.first(where: { $0.name == "code" }) else { return nil }
+        
+        return item.value
+    }
 }
+

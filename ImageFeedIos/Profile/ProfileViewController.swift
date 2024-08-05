@@ -75,7 +75,6 @@ final class ProfileViewController: UIViewController {
         exitButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
     }
     
-    
     @objc func exitButtonDidTap(_ sender: Any) {
     }
 }
