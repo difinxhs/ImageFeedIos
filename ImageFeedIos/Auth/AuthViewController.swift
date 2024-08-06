@@ -12,7 +12,7 @@ final class AuthViewController: UIViewController, OAuth2ServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        OAuth2Service.shared.delegate = self
+        //OAuth2Service.shared.delegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -4,7 +4,7 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     //init() {}
     private let storage = OAuth2TokenStorage()
-    weak var delegate: OAuth2ServiceDelegate?
+    //weak var delegate: OAuth2ServiceDelegate?
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {
          let baseURL = URL(string: "https://unsplash.com")!
@@ -35,7 +35,7 @@ final class OAuth2Service {
                         let token = responseBody.accessToken
                         self?.storage.token = token
                         completion(.success(token))
-                        self?.delegate?.didAuthenticate(token: token)
+                        //self?.delegate?.didAuthenticate(token: token)
                     } catch {
                         print("Failed to decode JSON: \(error)")
                         completion(.failure(error))
