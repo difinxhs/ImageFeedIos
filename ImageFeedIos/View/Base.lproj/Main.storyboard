@@ -158,9 +158,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FA6-d9-HU9"/>
-                    <connections>
-                        <outlet property="logInButton" destination="00D-ls-fGo" id="lQw-qN-h9c"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ey-wn-Iqv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -227,7 +224,6 @@
         <!--SplashViewController-->
         <scene sceneID="iZa-Dv-Mh9">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="D4i-Xb-jpq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController title="SplashViewController" id="tlP-7r-BoE" customClass="SplashViewController" customModule="ImageFeedIos" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6xG-c5-2Dw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -248,6 +244,7 @@
                         <segue destination="Sos-7Y-SUR" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="a9F-QC-6g7"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D4i-Xb-jpq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1375" y="-115"/>
         </scene>

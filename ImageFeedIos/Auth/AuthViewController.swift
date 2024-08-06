@@ -8,7 +8,7 @@ final class AuthViewController: UIViewController, OAuth2ServiceDelegate {
    
     private let showWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
-    @IBOutlet weak var logInButton: UIButton!
+    //@IBOutlet weak var logInButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
