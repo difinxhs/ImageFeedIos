@@ -4,7 +4,6 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
     private let storage = OAuth2TokenStorage()
-    //weak var delegate: OAuth2ServiceDelegate?
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest {
         let baseURL = URL(string: "https://unsplash.com")!

@@ -4,16 +4,10 @@ protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
-final class AuthViewController: UIViewController{//, OAuth2ServiceDelegate {
+final class AuthViewController: UIViewController{
    
     private let showWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
-    //@IBOutlet weak var logInButton: UIButton!
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        //OAuth2Service.shared.delegate = self
-//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
@@ -26,11 +20,6 @@ final class AuthViewController: UIViewController{//, OAuth2ServiceDelegate {
             super.prepare(for: segue, sender: sender)
         }
     }
-    
-//    func didAuthenticate(token: String) {
-//        print("Delegate received token: \(token)")
-//    }
-    
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
