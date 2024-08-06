@@ -4,30 +4,32 @@ protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
-final class AuthViewController: UIViewController, OAuth2ServiceDelegate {
+final class AuthViewController: UIViewController{//, OAuth2ServiceDelegate {
    
     private let showWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
     //@IBOutlet weak var logInButton: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //OAuth2Service.shared.delegate = self
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        //OAuth2Service.shared.delegate = self
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
             guard
-                let webViewViewController = segue.destination as? WebViewViewController else { fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")}
+                let webViewViewController = segue.destination as? WebViewViewController else {
+                fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
+            }
             webViewViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
         }
     }
     
-    func didAuthenticate(token: String) {
-        print("Delegate received token: \(token)")
-    }
+//    func didAuthenticate(token: String) {
+//        print("Delegate received token: \(token)")
+//    }
     
 }
 
@@ -36,7 +38,8 @@ extension AuthViewController: WebViewViewControllerDelegate {
         
         vc.dismiss(animated: true)
         
-        OAuth2Service.shared.fetchOAuthToken(code: code) { result in
+        OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let token):
                 print("Successfully fetched OAuth token: \(token)")
