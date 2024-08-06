@@ -6,21 +6,21 @@ final class OAuth2Service {
     private let storage = OAuth2TokenStorage()
     //weak var delegate: OAuth2ServiceDelegate?
     
-    func makeOAuthTokenRequest(code: String) -> URLRequest {
-         let baseURL = URL(string: "https://unsplash.com")!
-         let url = URL(
-             string: "/oauth/token"
-             + "?client_id=\(Constants.accessKey)"
-             + "&&client_secret=\(Constants.secretKey)"
-             + "&&redirect_uri=\(Constants.redirectURI)"
-             + "&&code=\(code)"
-             + "&&grant_type=authorization_code",
-             relativeTo: baseURL
-         )!
-         var request = URLRequest(url: url)
-         request.httpMethod = "POST"
-         return request
-     }
+    private func makeOAuthTokenRequest(code: String) -> URLRequest {
+        let baseURL = URL(string: "https://unsplash.com")!
+        let url = URL(
+            string: "/oauth/token"
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
+            + "&&code=\(code)"
+            + "&&grant_type=authorization_code",
+            relativeTo: baseURL
+        )!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        return request
+    }
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         let request = makeOAuthTokenRequest(code: code)
@@ -46,15 +46,18 @@ final class OAuth2Service {
                 }
             }
         }
+        
         task.resume()
     }
+
     
-    struct OAuthTokenResponseBody: Decodable {
+    
+    struct OAuthTokenResponseBody: Codable {
         let accessToken: String
         let tokenType: String
         let scope: String
         let createdAt: Int
-
+        
         enum CodingKeys: String, CodingKey {
             case accessToken = "access_token"
             case tokenType = "token_type"
@@ -62,7 +65,6 @@ final class OAuth2Service {
             case createdAt = "created_at"
         }
     }
-
 }
 
 
