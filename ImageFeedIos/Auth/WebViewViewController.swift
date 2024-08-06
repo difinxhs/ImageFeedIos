@@ -92,10 +92,10 @@ private extension WebViewViewController {
     func loadAuthView() {
         var components = URLComponents(string: "https://unsplash.com/oauth/authorize")
         components?.queryItems = [
-            URLQueryItem(name: "client_id", value: accessKey),
-            URLQueryItem(name: "redirect_uri", value: redirectURI),
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: accessScope)
+            URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         
         if let url = components?.url {

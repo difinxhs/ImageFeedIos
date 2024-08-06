@@ -10,9 +10,9 @@ final class OAuth2Service {
          let baseURL = URL(string: "https://unsplash.com")!
          let url = URL(
              string: "/oauth/token"
-             + "?client_id=\(accessKey)"
-             + "&&client_secret=\(secretKey)"
-             + "&&redirect_uri=\(redirectURI)"
+             + "?client_id=\(Constants.accessKey)"
+             + "&&client_secret=\(Constants.secretKey)"
+             + "&&redirect_uri=\(Constants.redirectURI)"
              + "&&code=\(code)"
              + "&&grant_type=authorization_code",
              relativeTo: baseURL
