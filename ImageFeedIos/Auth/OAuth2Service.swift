@@ -25,15 +25,15 @@ final class OAuth2Service {
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         let request = makeOAuthTokenRequest(code: code)
         
-        let task = URLSession.shared.data(for: request) { [weak self] result in
-            DispatchQueue.main.async { [self] in
+        let task = URLSession.shared.data(for: request) { result in
+            
                 switch result {
                 case .success(let data):
                     do {
                         let decoder = JSONDecoder()
                         let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                         let token = responseBody.accessToken
-                        self?.storage.token = token
+                        self.storage.token = token
                         completion(.success(token))
                         //self?.delegate?.didAuthenticate(token: token)
                     } catch {
@@ -45,12 +45,9 @@ final class OAuth2Service {
                     completion(.failure(error))
                 }
             }
-        }
         
         task.resume()
-    }
-
-    
+        }
     
     struct OAuthTokenResponseBody: Codable {
         let accessToken: String
