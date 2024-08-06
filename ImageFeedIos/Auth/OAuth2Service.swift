@@ -3,7 +3,7 @@ import UIKit
 final class OAuth2Service {
     static let shared = OAuth2Service()
     //init() {}
-    
+    private let storage = OAuth2TokenStorage()
     weak var delegate: OAuth2ServiceDelegate?
     
     func makeOAuthTokenRequest(code: String) -> URLRequest {
@@ -26,14 +26,14 @@ final class OAuth2Service {
         let request = makeOAuthTokenRequest(code: code)
         
         let task = URLSession.shared.data(for: request) { [weak self] result in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 switch result {
                 case .success(let data):
                     do {
                         let decoder = JSONDecoder()
                         let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                         let token = responseBody.accessToken
-                        OAuth2TokenStorage().token = token
+                        self?.storage.token = token
                         completion(.success(token))
                         self?.delegate?.didAuthenticate(token: token)
                     } catch {
