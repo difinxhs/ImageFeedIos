@@ -2,7 +2,7 @@ import UIKit
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    //init() {}
+    private init() {}
     private let storage = OAuth2TokenStorage()
     //weak var delegate: OAuth2ServiceDelegate?
     
