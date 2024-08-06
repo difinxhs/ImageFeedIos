@@ -30,12 +30,10 @@ final class OAuth2Service {
                 switch result {
                 case .success(let data):
                     do {
-                        let decoder = JSONDecoder()
-                        let responseBody = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                        let token = responseBody.accessToken
-                        self.storage.token = token
-                        completion(.success(token))
-                        //self?.delegate?.didAuthenticate(token: token)
+                        let decoder = OAuthTokenJSONDecoder()
+                        let token = try decoder.decode(OAuthToken.self, from: data)
+                        self.storage.token = token.accessToken
+                        completion(.success(token.accessToken))
                     } catch {
                         print("Failed to decode JSON: \(error)")
                         completion(.failure(error))
@@ -49,18 +47,18 @@ final class OAuth2Service {
         task.resume()
         }
     
-    struct OAuthTokenResponseBody: Decodable {
+    struct OAuthToken: Decodable {
         let accessToken: String
         let tokenType: String
         let scope: String
         let createdAt: Int
         
-        enum CodingKeys: String, CodingKey {
-            case accessToken = "access_token"
-            case tokenType = "token_type"
-            case scope
-            case createdAt = "created_at"
-        }
+//        enum CodingKeys: String, CodingKey {
+//            case accessToken = "access_token"
+//            case tokenType = "token_type"
+//            case scope
+//            case createdAt = "created_at"
+//        }
     }
 }
 
