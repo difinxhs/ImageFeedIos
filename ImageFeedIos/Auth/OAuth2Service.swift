@@ -25,8 +25,8 @@ final class OAuth2Service {
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         let request = makeOAuthTokenRequest(code: code)
         
-        let task = URLSession.shared.data(for: request) { result in
-            
+        let task = URLSession.shared.data(for: request) { [weak self] result in
+            guard let self else { return }
                 switch result {
                 case .success(let data):
                     do {
