@@ -7,12 +7,12 @@ final class OAuth2TokenStorage {
     var token: String? {
         get {
             let token = userDefaults.string(forKey: tokenKey)
-                        print("Get token: \(token ?? "nil")")
-                        return token
+            print("Get token: \(token ?? "nil")")
+            return token
         }
         set {
             userDefaults.setValue(newValue, forKey: tokenKey)
-                        print("Set token: \(newValue ?? "nil")")
+            print("Set token: \(newValue ?? "nil")")
         }
     }
 }
