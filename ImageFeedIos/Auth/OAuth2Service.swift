@@ -25,7 +25,7 @@ final class OAuth2Service {
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         let request = makeOAuthTokenRequest(code: code)
         
-        let task = URLSession.shared.data(for: request) { result in
+        let task = URLSession.shared.data(for: request) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
@@ -35,7 +35,7 @@ final class OAuth2Service {
                         let token = responseBody.accessToken
                         OAuth2TokenStorage().token = token
                         completion(.success(token))
-                        self.delegate?.didAuthenticate(token: token)
+                        self?.delegate?.didAuthenticate(token: token)
                     } catch {
                         print("Failed to decode JSON: \(error)")
                         completion(.failure(error))
