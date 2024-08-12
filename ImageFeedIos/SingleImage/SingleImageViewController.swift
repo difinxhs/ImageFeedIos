@@ -24,6 +24,7 @@ final class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
     }
+    
     @IBAction func backwardButtonDidTap(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
