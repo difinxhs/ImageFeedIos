@@ -1,13 +1,25 @@
 import UIKit
 
+enum AuthServiceError: Error {
+    case invalidRequest
+}
+
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private init() {}
     private let storage = OAuth2TokenStorage()
     
-    private func makeOAuthTokenRequest(code: String) -> URLRequest {
-        let baseURL = URL(string: "https://unsplash.com")!
-        let url = URL(
+    private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
+    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
+        guard let baseURL = URL(string: "https://unsplash.com") else {
+            assertionFailure("Failed to create URL")
+            return nil
+        }
+        
+        guard let url = URL(
             string: "/oauth/token"
             + "?client_id=\(Constants.accessKey)"
             + "&&client_secret=\(Constants.secretKey)"
@@ -15,14 +27,34 @@ final class OAuth2Service {
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             relativeTo: baseURL
-        )!
+        ) else {
+            assertionFailure("Failed to create URL")
+            return nil
+        }
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         return request
     }
     
     func fetchOAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let request = makeOAuthTokenRequest(code: code)
+        //let request = makeOAuthTokenRequest(code: code)
+        
+        assert(Thread.isMainThread)
+        guard lastCode != code else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        
+        task?.cancel()
+        lastCode = code
+        
+        guard
+            let request = makeOAuthTokenRequest(code: code)
+        else {
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
         
         let task = URLSession.shared.data(for: request) { [weak self] result in
             guard let self else { return }
@@ -46,5 +78,3 @@ final class OAuth2Service {
         task.resume()
         }
 }
-
-
