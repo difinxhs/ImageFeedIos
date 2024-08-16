@@ -5,11 +5,16 @@ enum ProfileServiceError: Error {
 }
 
 final class ProfileService {
+    static let shared = ProfileService()
+    private init() {}
+    
     private let storage = OAuth2TokenStorage()
     
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastToken: String?
+    
+    private(set) var profile: Profile?
     
     struct ProfileResult: Codable {
         let username: String

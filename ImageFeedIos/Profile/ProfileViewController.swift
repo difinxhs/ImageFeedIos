@@ -2,43 +2,36 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     @IBOutlet private weak var userPic: UIImageView!
-    @IBOutlet private weak var userName: UILabel!
-    @IBOutlet private weak var userTag: UILabel!
-    @IBOutlet private weak var userDescription: UILabel!
+    @IBOutlet  weak var userName: UILabel!
+    @IBOutlet  weak var userTag: UILabel!
+    @IBOutlet  weak var userDescription: UILabel!
     @IBOutlet private weak var exitButton: UIButton!
     
     private var label: UILabel?
     
     override func viewDidLoad() {
-           super.viewDidLoad()
-           
-           setupProfileImage()
-           setupUserName()
-           setupUserTag()
-           setupUserDescription()
-           setupExitButton()
+        super.viewDidLoad()
+        setupProfileImage()
+        setupUserName()
+        setupUserTag()
+        setupUserDescription()
+        setupExitButton()
         
-        guard let token = OAuth2TokenStorage().token else {
-               print("No token found")
-               return
-           }
         
-        let profileService = ProfileService()
-        
-        profileService.fetchProfile(token) { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let profile):
-                    self.userTag.text = profile.username
-                    self.userName.text = profile.name
-                    self.userDescription.text = profile.bio
-                    
-                case .failure(let error):
-                    print("Error fetching profile: \(error)")
-                }
-            }
-       }
+        if  let profile = ProfileService.shared.profile {
+            print("loading Profile")
+            updateProfileDetails(profile: profile)
+        } else {
+            print("can't load Profile")
+        }
+    }
+    
+    private func updateProfileDetails(profile: ProfileService.Profile) {
+        print("func updateProfile is working")
+        userTag.text = profile.username
+        userName.text = profile.name
+        userDescription.text = profile.bio
+    }
        
        //MARK: Layout
        
@@ -59,7 +52,7 @@ final class ProfileViewController: UIViewController {
        
        private func setupUserName() {
            let userName = UILabel()
-           //userName.text = "Екатерина Новикова"
+           userName.text = "Екатерина Новикова"
            userName.textColor = .ypWhite
            userName.font = UIFont.systemFont(ofSize: 23, weight: UIFont.Weight(rawValue: 400))
            userName.translatesAutoresizingMaskIntoConstraints = false
@@ -73,7 +66,7 @@ final class ProfileViewController: UIViewController {
        
        private func setupUserTag() {
            let userTag = UILabel()
-           //userTag.text = "@ekaterina_nov"
+           userTag.text = "@ekaterina_nov"
            userTag.textColor = .ypGray
            userTag.font = UIFont.systemFont(ofSize: 13)
            userTag.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +80,7 @@ final class ProfileViewController: UIViewController {
        
        private func setupUserDescription() {
            let userDescription = UILabel()
-           //userDescription.text = "Hello World!"
+           userDescription.text = "Hello World!"
            userDescription.textColor = .ypWhite
            userDescription.font = UIFont.systemFont(ofSize: 13)
            userDescription.translatesAutoresizingMaskIntoConstraints = false
