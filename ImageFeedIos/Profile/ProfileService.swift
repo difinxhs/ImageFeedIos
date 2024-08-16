@@ -82,7 +82,7 @@ final class ProfileService {
                         let decoder = JSONDecoder()
                         let profileResult = try decoder.decode(ProfileResult.self, from: data)
                         let profile = Profile(profileResult: profileResult)
-                        print(profile)
+                        print("decode JSON success \(profile)")
                         completion(.success(profile))
                     } catch {
                         print("Failed to decode ProfileJSON: \(error)")

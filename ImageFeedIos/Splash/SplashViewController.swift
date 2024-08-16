@@ -12,7 +12,7 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
 
         if let token = oauth2TokenStorage.token {
-            print("мы появились и ща будем грузить профиль")
+            print("didAppear - ready to load profile")
             fetchProfile(token: token)
         } else {
             // Show Auth Screen
@@ -79,13 +79,13 @@ extension SplashViewController: AuthViewControllerDelegate {
         guard let token = oauth2TokenStorage.token else {
             return
         }
-        print("мы авторизовались и ща будем грузить профиль")
+        print("didAuthenticate - true")
         fetchProfile(token: token)
     }
     
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
-        print("ща гружу профиль")
+        print("loading profile - SplashScreen")
         ProfileService.shared.fetchProfile(token) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
 
@@ -93,7 +93,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 
             switch result {
             case .success:
-                print("splashViewController fetchProfile working \(result)")
+                print("splashscreen fetchProfile working \(result)")
                 self.switchToTabBarController()
 
             case .failure:
