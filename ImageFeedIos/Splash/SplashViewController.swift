@@ -73,15 +73,15 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-    private func didAuthenticate(_ vc: AuthViewController) {
-        vc.dismiss(animated: true)
-        
-        guard let token = oauth2TokenStorage.token else {
-            return
-        }
-        print("didAuthenticate - true")
-        fetchProfile(token: token)
-    }
+//    private func didAuthenticate(_ vc: AuthViewController) {
+//        vc.dismiss(animated: true)
+//        
+//        guard let token = oauth2TokenStorage.token else {
+//            return
+//        }
+//        print("didAuthenticate - true")
+//        fetchProfile(token: token)
+//    }
     
     private func fetchProfile(token: String) {
         UIBlockingProgressHUD.show()
