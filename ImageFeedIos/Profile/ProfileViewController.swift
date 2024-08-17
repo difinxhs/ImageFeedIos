@@ -9,8 +9,6 @@ final class ProfileViewController: UIViewController {
     
     private var label: UILabel?
     
-    private var profile = ProfileService.shared.profile
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileImage()
@@ -24,7 +22,7 @@ final class ProfileViewController: UIViewController {
             print("loading Profile")
             updateProfileDetails(profile: profile)
         } else {
-            print("can't load Profile \(ProfileService.shared.profile)")
+            print("can't load Profile")
         }
     }
     
