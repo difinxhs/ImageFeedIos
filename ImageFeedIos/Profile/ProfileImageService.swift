@@ -16,6 +16,8 @@ final class ProfileImageService {
     
     private(set) var avatarURL: String?
     
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    
     struct UserResult: Codable {
         let profile_image: [String: String]  // Изменил тип на словарь для получения разных размеров изображения
     }
@@ -95,7 +97,15 @@ final class ProfileImageService {
                 print("decode Image JSON success \(result)")
                 if let avatarURL = result.small {
                     self.avatarURL = avatarURL  // Сохраняем URL маленького изображения
+                    
                     completion(.success(avatarURL))
+                    
+                    NotificationCenter.default
+                        .post(
+                            name: ProfileImageService.didChangeNotification,
+                            object: self,
+                            userInfo: ["URL": avatarURL]
+                        )
                 } else {
                     print("Failed to get small avatar URL")
                     completion(.failure(ProfileImageServiceError.invalidRequest))

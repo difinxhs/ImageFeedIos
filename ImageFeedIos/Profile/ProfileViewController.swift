@@ -9,6 +9,8 @@ final class ProfileViewController: UIViewController {
     
     private var label: UILabel?
     
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileImage()
@@ -24,6 +26,17 @@ final class ProfileViewController: UIViewController {
         } else {
             print("can't load Profile")
         }
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
     
     private func updateProfileDetails(profile: ProfileService.Profile) {
@@ -31,6 +44,14 @@ final class ProfileViewController: UIViewController {
         userTag.text = profile.username
         userName.text = profile.name
         userDescription.text = profile.bio
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        //TODO: обновить аватар используя Kingfisher
     }
        
        //MARK: Layout

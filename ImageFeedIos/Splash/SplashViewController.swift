@@ -104,19 +104,19 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchProfileImage(token: String) {
-        UIBlockingProgressHUD.show()
-        print("loading profile - SplashScreen")
+        //UIBlockingProgressHUD.show()
+        print("loading profileImage - SplashScreen")
         guard let username = ProfileService.shared.profile?.username else { return }
         
         
         ProfileImageService.shared.fetchProfileImageURL(username: username) { result in
-            UIBlockingProgressHUD.dismiss()
+           // UIBlockingProgressHUD.dismiss()
             
 //            guard let self = self else { return }
             
             switch result {
             case .success:
-                print("splashscreen fetchProfile working \(result)")
+                print("splashscreen fetchProfileImage working \(result)")
                 self.switchToTabBarController()
 
             case .failure:
