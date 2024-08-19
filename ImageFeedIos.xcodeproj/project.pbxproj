@@ -28,6 +28,7 @@
 		15CB5A742C3EFA7D00CA5CD7 /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB5A732C3EFA7D00CA5CD7 /* ImageListCell.swift */; };
 		15CB5A782C4BD79C00CA5CD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB5A772C4BD79C00CA5CD7 /* ProfileViewController.swift */; };
 		15CB5A7C2C4BF27D00CA5CD7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB5A7B2C4BF27D00CA5CD7 /* SingleImageViewController.swift */; };
+		15ECCE6D2C73BE5F00114C43 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15ECCE6C2C73BE5F00114C43 /* ProfileImageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		15CB5A732C3EFA7D00CA5CD7 /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
 		15CB5A772C4BD79C00CA5CD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		15CB5A7B2C4BF27D00CA5CD7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
+		15ECCE6C2C73BE5F00114C43 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 			children = (
 				15CB5A772C4BD79C00CA5CD7 /* ProfileViewController.swift */,
 				1517F8DC2C6FD63D000C9B79 /* ProfileService.swift */,
+				15ECCE6C2C73BE5F00114C43 /* ProfileImageService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				15CB5A7C2C4BF27D00CA5CD7 /* SingleImageViewController.swift in Sources */,
 				1508BC752C6107D9008FFB2C /* URLSession+data.swift in Sources */,
 				15A445162C595B1A00D0B934 /* WebViewViewController.swift in Sources */,
+				15ECCE6D2C73BE5F00114C43 /* ProfileImageService.swift in Sources */,
 				1508BC732C60FBBF008FFB2C /* OAuth2Service.swift in Sources */,
 				15707DFA2C3C63ED005093BB /* SceneDelegate.swift in Sources */,
 			);
