@@ -77,10 +77,17 @@ final class ProfileService {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let profileResult):
-                    let result = Profile(profileResult: profileResult)
-                    self.profile = result
-                    completion(.success(result))
+                    do {
+                        let result = Profile(profileResult: profileResult)
+                        self.profile = result
+                        print("Successed to decode Profile")
+                        completion(.success(result))
+                    } catch {
+                        print("Failed to decode Profile: \(error)")
+                        completion(.failure(error))
+                    }
                 case .failure(let error):
+                    print("Error fetching Profile: \(error)")
                     completion(.failure(error))
                 }
             }

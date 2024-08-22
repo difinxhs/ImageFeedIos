@@ -13,6 +13,7 @@ extension URLSession {
     ) -> URLSessionTask {
         let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
+                print(result)
                 completion(result)
             }
         }
@@ -21,6 +22,7 @@ extension URLSession {
             if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 print("Status Code: \(statusCode)")
                 if 200 ..< 300 ~= statusCode {
+                    print("Successful: \(data)")
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
@@ -74,13 +76,14 @@ extension URLSession {
                     do {
                         let decoder = JSONDecoder()
                         let result = try decoder.decode(T.self, from: data)
+                        print("Successful decode JSON: \(result)")
                         completion(.success(result))
                     } catch {
                         print("Failed to decode JSON: \(error)")
                         completion(.failure(error))
                     }
                 case .failure(let error):
-                    print("Error fetching OAuth token: \(error)")
+                    print("Error fetching data: \(error)")
                     completion(.failure(error))
                 }
             }

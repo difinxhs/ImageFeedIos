@@ -79,14 +79,22 @@ final class ProfileImageService {
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let userResult):
-                        let userImage = UserImage(userResult: userResult)
-                        self.avatarURL = userImage.small
-                        if let avatarURL = self.avatarURL {
-                            completion(.success(avatarURL))
-                        } else {
-                            completion(.failure(ProfileImageServiceError.invalidRequest))
+                        do {
+                            let userImage = UserImage(userResult: userResult)
+                            self.avatarURL = userImage.small
+                            if let avatarURL = self.avatarURL {
+                                print("Successed to decode UserImage")
+                                completion(.success(avatarURL))
+                            } else {
+                                print("Invalid request UserImage")
+                                completion(.failure(ProfileImageServiceError.invalidRequest))
+                            }
+                        } catch {
+                            print("Failed to fetch UserImage: \(error)")
+                            completion(.failure(error))
                         }
                     case .failure(let error):
+                        print("Error fetching UserImage: \(error)")
                         completion(.failure(error))
                     }
                 }

@@ -59,8 +59,14 @@ final class OAuth2Service {
             guard let self = self else { return }
             switch result {
             case .success(let token):
-                self.storage.token = token.accessToken
-                completion(.success(token.accessToken))
+                do {
+                    self.storage.token = token.accessToken
+                    print("Successed to decode OAuthToken")
+                    completion(.success(token.accessToken))
+                } catch {
+                    print("Failed to decode OAuthToken: \(error)")
+                    completion(.failure(error))
+                }
             case .failure(let error):
                 print("Error fetching OAuth token: \(error)")
                 completion(.failure(error))
