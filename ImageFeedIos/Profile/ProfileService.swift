@@ -27,7 +27,7 @@ final class ProfileService {
         let username: String
         let name: String
         let bio: String
-
+        
         init(profileResult: ProfileResult) {
             self.username = "@" + profileResult.username
             self.name = profileResult.first_name + " " + profileResult.last_name
@@ -73,28 +73,20 @@ final class ProfileService {
             return
         }
         
-        let task = URLSession.shared.data(for: request) { /*[weak self]*/ result in
-            //guard self != nil else { return }
+        let task = urlSession.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+            DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    do {
-                        print("decoding started \(data)")
-                        let decoder = JSONDecoder()
-                        let profileResult = try decoder.decode(ProfileResult.self, from: data)
-                        let result = Profile(profileResult: profileResult)
-                        print("decode JSON success \(result)")
-                        self.profile = result
-                        completion(.success(result))
-                    } catch {
-                        print("Failed to decode ProfileJSON: \(error)")
-                        completion(.failure(error))
-                    }
+                case .success(let profileResult):
+                    let result = Profile(profileResult: profileResult)
+                    self.profile = result
+                    completion(.success(result))
                 case .failure(let error):
-                    print("Error fetching profile: \(error)")
                     completion(.failure(error))
                 }
             }
-        
-        task.resume()
         }
+        
+        self.task = task
+        task.resume()
+    }
 }

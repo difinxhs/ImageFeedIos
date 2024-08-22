@@ -74,47 +74,23 @@ final class ProfileImageService {
             return
         }
         
-        let task = urlSession.dataTask(with: request) { [weak self] data, response, error in  // Изменил на правильный метод dataTask
-            guard let self = self else { return }
-            
-            if let error = error {
-                print("Error fetching profile image: \(error)")
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                print("No data received")
-                completion(.failure(ProfileImageServiceError.invalidRequest))
-                return
-            }
-            
-            do {
-                print("decoding avatar started \(data)")
-                let decoder = JSONDecoder()
-                let userResult = try decoder.decode(UserResult.self, from: data)
-                let result = UserImage(userResult: userResult)
-                print("decode Image JSON success \(result)")
-                if let avatarURL = result.small {
-                    self.avatarURL = avatarURL  // Сохраняем URL маленького изображения
-                    
-                    completion(.success(avatarURL))
-                    
-                    NotificationCenter.default
-                        .post(
-                            name: ProfileImageService.didChangeNotification,
-                            object: self,
-                            userInfo: ["URL": avatarURL]
-                        )
-                } else {
-                    print("Failed to get small avatar URL")
-                    completion(.failure(ProfileImageServiceError.invalidRequest))
+        
+        let task = urlSession.objectTask(for: request) { (result: Result<UserResult, Error>) in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let userResult):
+                        let userImage = UserImage(userResult: userResult)
+                        self.avatarURL = userImage.small
+                        if let avatarURL = self.avatarURL {
+                            completion(.success(avatarURL))
+                        } else {
+                            completion(.failure(ProfileImageServiceError.invalidRequest))
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
-            } catch {
-                print("Failed to decode ProfileImageJSON: \(error)")
-                completion(.failure(error))
             }
-        }
         
         task.resume()
     }
