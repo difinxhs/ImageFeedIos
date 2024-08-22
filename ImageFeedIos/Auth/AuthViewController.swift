@@ -40,6 +40,14 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
                 print("Failed to fetch OAuth token: \(error)")
+                
+                let alert = UIAlertController(
+                    title: "Что-то пошло не так(",
+                    message: "Не удалось войти в систему",
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                self.present(alert, animated: true)
             }
         }
     }
