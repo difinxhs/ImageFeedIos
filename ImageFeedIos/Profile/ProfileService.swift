@@ -35,6 +35,13 @@ final class ProfileService {
         }
     }
     
+     func giveMeUsername() -> String {
+        guard let username = profile?.username else { return ""}
+        var trueUsername: String = username
+        trueUsername.removeFirst()
+        return trueUsername
+    }
+    
     private func makeProfileURL () -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
             assertionFailure("Failed to create ProfileURL")

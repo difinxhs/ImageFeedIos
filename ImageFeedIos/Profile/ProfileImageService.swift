@@ -30,7 +30,10 @@ final class ProfileImageService {
     }
     
     private func makeAvatarURL() -> URLRequest? {
-        guard let username = username else { return nil }
+//        guard let username = username else { return nil }
+        
+        let username = ProfileService.shared.giveMeUsername()
+        print(username)
         
         guard let url = URL(string: "https://api.unsplash.com/users/\(username)") else {
             assertionFailure("Failed to create ProfileImageURL")

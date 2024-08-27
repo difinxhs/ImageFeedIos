@@ -108,11 +108,11 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     private func fetchProfileImage(token: String) {
         print("loading profileImage - SplashScreen")
-        guard let username = profile?.username else { 
-            print("PIZDA")
-            return }
-        
-//        ProfileImageService.shared.fetchProfileImageURL(username: username, <#T##completion: (Result<String, any Error>) -> Void##(Result<String, any Error>) -> Void#>)
+        let username = ProfileService.shared.giveMeUsername()
+        print(username)
+//        guard let username = profile?.username else {
+//            print("PIZDA")
+//            return }
             
             ProfileImageService.shared.fetchProfileImageURL(username: username) { [weak self] result in
                 guard let self = self else { return }
