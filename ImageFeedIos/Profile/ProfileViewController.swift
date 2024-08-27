@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     @IBOutlet private weak var userPic: UIImageView!
@@ -36,6 +37,7 @@ final class ProfileViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateAvatar()
             }
+        print("profileImageServiceObserver is working")
         updateAvatar()
     }
     
@@ -52,6 +54,14 @@ final class ProfileViewController: UIViewController {
             let url = URL(string: profileImageURL)
         else { return }
         //TODO: обновить аватар используя Kingfisher
+        print("ProfileImageURL: \(url)")
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        userPic.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "Placeholder"),
+            options: [.processor(processor)]
+        )
+        
     }
        
        //MARK: Layout

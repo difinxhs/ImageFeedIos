@@ -11,7 +11,6 @@ final class ProfileImageService {
     private let storage = OAuth2TokenStorage()
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
-    private var lastToken: String?
     private var username = ProfileService.shared.profile?.username
     
     private(set) var avatarURL: String?
@@ -19,34 +18,27 @@ final class ProfileImageService {
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     struct UserResult: Codable {
-        let profile_image: [String: String]  // Изменил тип на словарь для получения разных размеров изображения
+        let profile_image: [String: String]
     }
     
     struct UserImage {
-        let small: String?  // Указал нужный размер изображения
+        let small: String?
         
         init(userResult: UserResult) {
-            self.small = userResult.profile_image["small"]  // Достаем только маленькое изображение
+            self.small = userResult.profile_image["small"]
         }
     }
     
     private func makeAvatarURL() -> URLRequest? {
         guard let username = username else { return nil }
         
-        guard let baseURL = URL(string: "https://api.unsplash.com") else {
-            assertionFailure("Failed to create URL")
+        guard let url = URL(string: "https://api.unsplash.com/users/\(username)") else {
+            assertionFailure("Failed to create ProfileImageURL")
             return nil
         }
-        
-        guard let url = URL(
-            string: "/users/\(username)",  // Исправил URL, убрал "profile_image/small", так как это часть ответа API
-            relativeTo: baseURL
-        ) else {
-            assertionFailure("Failed to create ImageURL")
-            return nil
-        }
-        
+        print("makeAvatarURL url: \(url)")
         var request = URLRequest(url: url)
+        
         request.httpMethod = "GET"
         
         guard let token = storage.token else {
@@ -56,20 +48,18 @@ final class ProfileImageService {
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        print("request makeAvatarURL: \(request)")
+        print("makeAvatarURL request: \(request)")
         return request
     }
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        guard username == username else {
-            completion(.failure(ProfileImageServiceError.invalidRequest))  // Исправил ошибку, неверный enum был использован
-            return
-        }
-        
+        print("fetchProfileImageURL username: \(username)")
         task?.cancel()
         
-        guard let request = makeAvatarURL() else {
+        guard 
+            let request = makeAvatarURL()
+        else {
             completion(.failure(ProfileImageServiceError.invalidRequest))
             return
         }

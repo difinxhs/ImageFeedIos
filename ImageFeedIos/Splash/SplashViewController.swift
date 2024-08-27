@@ -12,8 +12,19 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
 
         if let token = oauth2TokenStorage.token {
-            print("didAppear - ready to load profile")
-            fetchProfile(token: token)
+                print("didAppear - ready to load profile")
+                fetchProfile(token: token) { [weak self] result in
+                    guard let self = self else { return }
+
+                    switch result {
+                    case .success:
+                        print("Profile successfully fetched")
+                        self.fetchProfileImage(token: token)
+                    case .failure(let error):
+                        print("Failed to fetch profile: \(error)")
+                        // TODO: Show an error message
+                    }
+                }
         } else {
             // Show Auth Screen
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
@@ -73,17 +84,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-//    private func didAuthenticate(_ vc: AuthViewController) {
-//        vc.dismiss(animated: true)
-//        
-//        guard let token = oauth2TokenStorage.token else {
-//            return
-//        }
-//        print("didAuthenticate - true")
-//        fetchProfile(token: token)
-//    }
-    
-    private func fetchProfile(token: String) {
+    private func fetchProfile(token: String, completion: @escaping (Result<Void, Error>) -> Void) {
         UIBlockingProgressHUD.show()
         print("loading profile - SplashScreen")
         ProfileService.shared.fetchProfile(token) { [weak self] result in
@@ -92,54 +93,39 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
 
             switch result {
-            case .success:
-                print("splashscreen fetchProfile working \(result)")
-                self.switchToTabBarController()
-
-            case .failure:
-                // TODO: Покажите ошибку получения профиля
-                break
+            case .success(let profile):
+                print("splashscreen fetchProfile working: \(profile)")
+                self.profile = profile
+                completion(.success(()))
+            case .failure(let error):
+                print("Failed to fetch profile: \(error)")
+                completion(.failure(error))
+                // TODO: Show an error message
             }
         }
     }
+
     
     private func fetchProfileImage(token: String) {
-        //UIBlockingProgressHUD.show()
         print("loading profileImage - SplashScreen")
-        guard let username = ProfileService.shared.profile?.username else { return }
+        guard let username = profile?.username else { 
+            print("PIZDA")
+            return }
         
-        
-        ProfileImageService.shared.fetchProfileImageURL(username: username) { result in
-           // UIBlockingProgressHUD.dismiss()
+//        ProfileImageService.shared.fetchProfileImageURL(username: username, <#T##completion: (Result<String, any Error>) -> Void##(Result<String, any Error>) -> Void#>)
             
-//            guard let self = self else { return }
-            
-            switch result {
-            case .success:
-                print("splashscreen fetchProfileImage working \(result)")
-                self.switchToTabBarController()
-
-            case .failure:
-                // TODO: Покажите ошибку получения изображения профиля
-                break
+            ProfileImageService.shared.fetchProfileImageURL(username: username) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let avatarURL):
+                    print("splashscreen fetchProfileImage working: \(avatarURL)")
+                    self.switchToTabBarController()
+                case .failure(let error):
+                    print("Failed to fetch profile image: \(error)")
+                    // TODO: Show an error message
+                }
             }
-            
         }
-//        ProfileService.shared.fetchProfile(token) { [weak self] result in
-//            UIBlockingProgressHUD.dismiss()
-//
-//            guard let self = self else { return }
-//
-//            switch result {
-//            case .success:
-//                print("splashscreen fetchProfile working \(result)")
-//                self.switchToTabBarController()
-//
-//            case .failure:
-//                // TODO: Покажите ошибку получения профиля
-//                break
-//            }
-//        }
-    }
     
 }

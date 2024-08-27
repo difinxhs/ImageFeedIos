@@ -52,7 +52,7 @@ final class ProfileService {
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        print("request: \(request)")
+        print("makeProfileURL request: \(request)")
         return request
     }
     
