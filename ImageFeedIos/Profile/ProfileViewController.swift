@@ -56,6 +56,7 @@ final class ProfileViewController: UIViewController {
         //TODO: обновить аватар используя Kingfisher
         print("ProfileImageURL: \(url)")
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        userPic.kf.indicatorType = .activity
         userPic.kf.setImage(
             with: url,
             placeholder: UIImage(named: "Placeholder"),
