@@ -20,6 +20,8 @@ final class ProfileViewController: UIViewController {
         setupUserDescription()
         setupExitButton()
         
+        view.backgroundColor = UIColor(named: "YP Black")
+        
         
         if  let profile = ProfileService.shared.profile {
             print("loading Profile")
