@@ -35,7 +35,7 @@ final class ProfileService {
         }
     }
     
-     func giveMeUsername() -> String {
+    func giveMeUsername() -> String {
         guard let username = profile?.username else { return ""}
         var trueUsername: String = username
         trueUsername.removeFirst()

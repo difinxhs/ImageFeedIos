@@ -59,7 +59,7 @@ final class ProfileImageService {
         print("fetchProfileImageURL username: \(username)")
         task?.cancel()
         
-        guard 
+        guard
             let request = makeAvatarURL()
         else {
             completion(.failure(ProfileImageServiceError.invalidRequest))
@@ -68,29 +68,29 @@ final class ProfileImageService {
         
         
         let task = urlSession.objectTask(for: request) { (result: Result<UserResult, Error>) in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let userResult):
-                        do {
-                            let userImage = UserImage(userResult: userResult)
-                            self.avatarURL = userImage.small
-                            if let avatarURL = self.avatarURL {
-                                print("Successed to decode UserImage")
-                                completion(.success(avatarURL))
-                            } else {
-                                print("Invalid request UserImage")
-                                completion(.failure(ProfileImageServiceError.invalidRequest))
-                            }
-                        } catch {
-                            print("Failed to fetch UserImage: \(error)")
-                            completion(.failure(error))
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let userResult):
+                    do {
+                        let userImage = UserImage(userResult: userResult)
+                        self.avatarURL = userImage.small
+                        if let avatarURL = self.avatarURL {
+                            print("Successed to decode UserImage")
+                            completion(.success(avatarURL))
+                        } else {
+                            print("Invalid request UserImage")
+                            completion(.failure(ProfileImageServiceError.invalidRequest))
                         }
-                    case .failure(let error):
-                        print("Error fetching UserImage: \(error)")
+                    } catch {
+                        print("Failed to fetch UserImage: \(error)")
                         completion(.failure(error))
                     }
+                case .failure(let error):
+                    print("Error fetching UserImage: \(error)")
+                    completion(.failure(error))
                 }
             }
+        }
         
         task.resume()
     }
