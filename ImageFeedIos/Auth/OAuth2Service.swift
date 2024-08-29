@@ -53,7 +53,6 @@ final class OAuth2Service {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-//        let session = URLSession.shared
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthToken, Error>) in
             guard let self = self else { return }

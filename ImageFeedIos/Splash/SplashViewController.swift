@@ -78,6 +78,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
             case .failure:
+                print("Proebal token")
                 // TODO [Sprint 11]
                 break
             }
@@ -109,10 +110,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     private func fetchProfileImage(token: String) {
         print("loading profileImage - SplashScreen")
         let username = ProfileService.shared.giveMeUsername()
-        print(username)
-//        guard let username = profile?.username else {
-//            print("PIZDA")
-//            return }
+        print("fetchProfileImage- SplashScreen username: \(username)")
             
             ProfileImageService.shared.fetchProfileImageURL(username: username) { [weak self] result in
                 guard let self = self else { return }
@@ -127,5 +125,4 @@ extension SplashViewController: AuthViewControllerDelegate {
                 }
             }
         }
-    
 }
