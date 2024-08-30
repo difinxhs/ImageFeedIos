@@ -4,6 +4,25 @@ enum ProfileServiceError: Error {
     case invalidRequest
 }
 
+struct ProfileResult: Codable {
+    let username: String
+    let first_name: String
+    let last_name: String
+    let bio: String
+}
+
+struct Profile {
+    let username: String
+    let name: String
+    let bio: String
+    
+    init(profileResult: ProfileResult) {
+        self.username = "@" + profileResult.username
+        self.name = profileResult.first_name + " " + profileResult.last_name
+        self.bio = profileResult.bio
+    }
+}
+
 final class ProfileService {
     static let shared = ProfileService()
     private init() {}
@@ -16,24 +35,6 @@ final class ProfileService {
     
     private(set) var profile: Profile?
     
-    struct ProfileResult: Codable {
-        let username: String
-        let first_name: String
-        let last_name: String
-        let bio: String
-    }
-    
-    struct Profile {
-        let username: String
-        let name: String
-        let bio: String
-        
-        init(profileResult: ProfileResult) {
-            self.username = "@" + profileResult.username
-            self.name = profileResult.first_name + " " + profileResult.last_name
-            self.bio = profileResult.bio
-        }
-    }
     
     func giveMeUsername() -> String {
         guard let username = profile?.username else { return ""}

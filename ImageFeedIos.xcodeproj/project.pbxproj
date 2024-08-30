@@ -137,8 +137,8 @@
 		15A445122C59597500D0B934 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				15A445132C59598E00D0B934 /* AuthViewController.swift */,
 				15A445152C595B1A00D0B934 /* WebViewViewController.swift */,
+				15A445132C59598E00D0B934 /* AuthViewController.swift */,
 				1508BC722C60FBBF008FFB2C /* OAuth2Service.swift */,
 				1508BC762C610BF8008FFB2C /* OAuth2TokenStorage.swift */,
 				1508BC742C6107D9008FFB2C /* URLSession+data.swift */,

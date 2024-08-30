@@ -43,7 +43,7 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
     }
     
-    private func updateProfileDetails(profile: ProfileService.Profile) {
+    private func updateProfileDetails(profile: Profile) {
         print("func updateProfile is working")
         userTag.text = profile.username
         userName.text = profile.name
