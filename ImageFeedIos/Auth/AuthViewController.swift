@@ -14,7 +14,7 @@ final class AuthViewController: UIViewController{
         if segue.identifier == showWebViewSegueIdentifier {
             guard
                 let webViewViewController = segue.destination as? WebViewViewController else {
-                fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
+                fatalError("[AuthViewController] Failed to prepare for \(showWebViewSegueIdentifier)")
             }
             webViewViewController.delegate = self
         } else {
@@ -36,10 +36,10 @@ extension AuthViewController: WebViewViewControllerDelegate {
             
             switch result {
             case .success(let token):
-                print("Successfully fetched OAuth token: \(token)")
+                print("[AuthViewController] Successfully fetched OAuth token: \(token)")
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
-                print("Failed to fetch OAuth token: \(error)")
+                print("[AuthViewController] Failed to fetch OAuth token: \(error)")
                 
                 let alert = UIAlertController(
                     title: "Что-то пошло не так(",

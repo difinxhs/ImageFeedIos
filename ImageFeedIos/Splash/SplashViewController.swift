@@ -18,16 +18,16 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if let token = oauth2TokenStorage.token {
-            print("didAppear - ready to load profile")
+            print("[SplashScreen] didAppear - ready to load profile")
             fetchProfile(token: token) { [weak self] result in
                 guard let self = self else { return }
                 
                 switch result {
                 case .success:
-                    print("Profile successfully fetched")
+                    print("[SplashScreen] Profile successfully fetched")
                     self.fetchProfileImage(token: token)
                 case .failure(let error):
-                    print("Failed to fetch profile: \(error)")
+                    print("[SplashScreen] Failed to fetch profile: \(error)")
                 }
             }
         } else {
@@ -36,7 +36,7 @@ final class SplashViewController: UIViewController {
             guard let authViewController = storyboard.instantiateViewController(
                 withIdentifier: "AuthViewController"
             ) as? AuthViewController else {
-                fatalError("AuthViewController не найден в Storyboard")
+                fatalError("[SplashScreen] AuthViewController не найден в Storyboard")
             }
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
@@ -89,7 +89,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
             case .failure:
-                print("Proebal token")
+                print("[SplashScreen] Proebal token")
                 break
             }
         }
@@ -97,7 +97,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     private func fetchProfile(token: String, completion: @escaping (Result<Void, Error>) -> Void) {
         UIBlockingProgressHUD.show()
-        print("loading profile - SplashScreen")
+        print("[SplashScreen] loading profile")
         ProfileService.shared.fetchProfile(token) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             
@@ -105,11 +105,11 @@ extension SplashViewController: AuthViewControllerDelegate {
             
             switch result {
             case .success(let profile):
-                print("splashscreen fetchProfile working: \(profile)")
+                print("[SplashScreen] fetchProfile working: \(profile)")
                 self.profile = profile
                 completion(.success(()))
             case .failure(let error):
-                print("Failed to fetch profile: \(error)")
+                print("[SplashScreen] Failed to fetch profile: \(error)")
                 completion(.failure(error))
             }
         }
@@ -117,19 +117,19 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     
     private func fetchProfileImage(token: String) {
-        print("loading profileImage - SplashScreen")
+        print("[SplashScreen] loading profileImage")
         let username = ProfileService.shared.giveMeUsername()
-        print("fetchProfileImage- SplashScreen username: \(username)")
+        print("[SplashScreen] fetchProfileImage username: \(username)")
         
         ProfileImageService.shared.fetchProfileImageURL(username: username) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .success(let avatarURL):
-                print("splashscreen fetchProfileImage working: \(avatarURL)")
+                print("[SplashScreen] fetchProfileImage working: \(avatarURL)")
                 self.switchToTabBarController()
             case .failure(let error):
-                print("Failed to fetch profile image: \(error)")
+                print("[SplashScreen] Failed to fetch profile image: \(error)")
             }
         }
     }

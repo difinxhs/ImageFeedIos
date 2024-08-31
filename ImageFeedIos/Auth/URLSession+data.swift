@@ -13,16 +13,13 @@ extension URLSession {
     ) -> URLSessionTask {
         let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
-                print(result)
                 completion(result)
             }
         }
         
         let task = dataTask(with: request, completionHandler: { data, response, error in
             if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                print("Status Code: \(statusCode)")
                 if 200 ..< 300 ~= statusCode {
-                    print("Successful: \(data)")
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
                     fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))

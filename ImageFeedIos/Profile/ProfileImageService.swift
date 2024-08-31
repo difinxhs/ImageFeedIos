@@ -32,31 +32,30 @@ final class ProfileImageService {
     private func makeAvatarURL() -> URLRequest? {
         
         let username = ProfileService.shared.giveMeUsername()
-        print(username)
         
         guard let url = URL(string: "https://api.unsplash.com/users/\(username)") else {
-            assertionFailure("Failed to create ProfileImageURL")
+            assertionFailure("[ProfileImageService] Failed to create ProfileImageURL")
             return nil
         }
-        print("makeAvatarURL url: \(url)")
+        print("[ProfileImageService] makeAvatarURL url: \(url)")
         var request = URLRequest(url: url)
         
         request.httpMethod = "GET"
         
         guard let token = storage.token else {
-            assertionFailure("Failed to get ProfileImageToken")
+            assertionFailure("[ProfileImageService] Failed to get ProfileImageToken")
             return nil
         }
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        print("makeAvatarURL request: \(request)")
+        print("[ProfileImageService] makeAvatarURL request: \(request)")
         return request
     }
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        print("fetchProfileImageURL username: \(username)")
+        print("[ProfileImageService] fetchProfileImageURL username: \(username)")
         task?.cancel()
         
         guard
@@ -75,18 +74,18 @@ final class ProfileImageService {
                         let userImage = UserImage(userResult: userResult)
                         self.avatarURL = userImage.small
                         if let avatarURL = self.avatarURL {
-                            print("Successed to decode UserImage")
+                            print("[ProfileImageService] Successed to decode UserImage")
                             completion(.success(avatarURL))
                         } else {
-                            print("Invalid request UserImage")
+                            print("[ProfileImageService] Invalid request UserImage")
                             completion(.failure(ProfileImageServiceError.invalidRequest))
                         }
                     } catch {
-                        print("Failed to fetch UserImage: \(error)")
+                        print("[ProfileImageService] Failed to fetch UserImage: \(error)")
                         completion(.failure(error))
                     }
                 case .failure(let error):
-                    print("Error fetching UserImage: \(error)")
+                    print("[ProfileImageService] Error fetching UserImage: \(error)")
                     completion(.failure(error))
                 }
             }

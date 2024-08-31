@@ -15,7 +15,7 @@ final class OAuth2Service {
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard let baseURL = URL(string: "https://unsplash.com") else {
-            assertionFailure("Failed to create URL")
+            assertionFailure("[AuthService] Failed to create URL")
             return nil
         }
         
@@ -28,7 +28,7 @@ final class OAuth2Service {
             + "&&grant_type=authorization_code",
             relativeTo: baseURL
         ) else {
-            assertionFailure("Failed to create URL")
+            assertionFailure("[AuthService] Failed to create URL")
             return nil
         }
         
@@ -60,14 +60,14 @@ final class OAuth2Service {
             case .success(let token):
                 do {
                     self.storage.token = token.accessToken
-                    print("Successed to decode OAuthToken")
+                    print("[AuthService] Successed to decode OAuthToken")
                     completion(.success(token.accessToken))
                 } catch {
-                    print("Failed to decode OAuthToken: \(error)")
+                    print("[AuthService] Failed to decode OAuthToken: \(error)")
                     completion(.failure(error))
                 }
             case .failure(let error):
-                print("Error fetching OAuth token: \(error)")
+                print("[AuthService] Error fetching OAuth token: \(error)")
                 completion(.failure(error))
             }
             

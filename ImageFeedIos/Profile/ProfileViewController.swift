@@ -24,10 +24,10 @@ final class ProfileViewController: UIViewController {
         
         
         if  let profile = ProfileService.shared.profile {
-            print("loading Profile")
+            print("[ProfileViewController] loading Profile")
             updateProfileDetails(profile: profile)
         } else {
-            print("can't load Profile")
+            print("[ProfileViewController] can't load Profile")
         }
         
         profileImageServiceObserver = NotificationCenter.default
@@ -39,12 +39,12 @@ final class ProfileViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateAvatar()
             }
-        print("profileImageServiceObserver is working")
+        print("[ProfileViewController] profileImageServiceObserver is working")
         updateAvatar()
     }
     
     private func updateProfileDetails(profile: Profile) {
-        print("func updateProfile is working")
+        print("[ProfileViewController] func updateProfile is working")
         userTag.text = profile.username
         userName.text = profile.name
         userDescription.text = profile.bio
@@ -55,7 +55,7 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        print("ProfileImageURL: \(url)")
+        print("[ProfileViewController] ProfileImageURL: \(url)")
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
         userPic.kf.indicatorType = .activity
         userPic.kf.setImage(

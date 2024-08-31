@@ -7,8 +7,8 @@ enum ProfileServiceError: Error {
 struct ProfileResult: Codable {
     let username: String
     let first_name: String
-    let last_name: String
-    let bio: String
+    let last_name: String?
+    let bio: String?
 }
 
 struct Profile {
@@ -18,8 +18,8 @@ struct Profile {
     
     init(profileResult: ProfileResult) {
         self.username = "@" + profileResult.username
-        self.name = profileResult.first_name + " " + profileResult.last_name
-        self.bio = profileResult.bio
+        self.name = profileResult.first_name + " " + (profileResult.last_name ?? "")
+        self.bio = profileResult.bio ?? ""
     }
 }
 
@@ -45,7 +45,7 @@ final class ProfileService {
     
     private func makeProfileURL () -> URLRequest? {
         guard let url = URL(string: "https://api.unsplash.com/me") else {
-            assertionFailure("Failed to create ProfileURL")
+            assertionFailure("[ProfileService] Failed to create ProfileURL")
             return nil
         }
         
@@ -54,13 +54,13 @@ final class ProfileService {
         request.httpMethod = "GET"
         
         guard let token = storage.token else {
-            assertionFailure("Failed to get ProfileToken")
+            assertionFailure("[ProfileService] Failed to get ProfileToken")
             return nil
         }
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        print("makeProfileURL request: \(request)")
+        print("[ProfileService] makeProfileURL request: \(request)")
         return request
     }
     
@@ -88,14 +88,14 @@ final class ProfileService {
                     do {
                         let result = Profile(profileResult: profileResult)
                         self.profile = result
-                        print("Successed to decode Profile")
+                        print("[ProfileService] Successed to decode Profile")
                         completion(.success(result))
                     } catch {
-                        print("Failed to decode Profile: \(error)")
+                        print("[ProfileService] Failed to decode Profile: \(error)")
                         completion(.failure(error))
                     }
                 case .failure(let error):
-                    print("Error fetching Profile: \(error)")
+                    print("[ProfileService] Error fetching Profile: \(error)")
                     completion(.failure(error))
                 }
             }
