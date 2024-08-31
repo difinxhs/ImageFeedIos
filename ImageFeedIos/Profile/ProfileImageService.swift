@@ -33,7 +33,7 @@ final class ProfileImageService {
         
         let username = ProfileService.shared.giveMeUsername()
         
-        guard let url = URL(string: "https://api.unsplash.com/users/\(username)") else {
+        guard let url = URL(string: "\(Constants.usersURL)\(username)") else {
             assertionFailure("[ProfileImageService] Failed to create ProfileImageURL")
             return nil
         }

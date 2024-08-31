@@ -14,7 +14,7 @@ final class OAuth2Service {
     private var lastCode: String?
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard let baseURL = URL(string: "https://unsplash.com") else {
+        guard let baseURL = URL(string: Constants.baseURL) else {
             assertionFailure("[AuthService] Failed to create URL")
             return nil
         }

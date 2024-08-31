@@ -1,11 +1,12 @@
 import UIKit
+import SwiftKeychainWrapper
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
     @IBOutlet private weak var userPic: UIImageView!
     @IBOutlet  weak var userName: UILabel!
     @IBOutlet  weak var userTag: UILabel!
-    @IBOutlet  weak var userDescription: UILabel!
+    @IBOutlet private weak var userDescription: UILabel!
     @IBOutlet private weak var exitButton: UIButton!
     
     private var label: UILabel?
@@ -142,5 +143,7 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc func exitButtonDidTap(_ sender: Any) {
+        KeychainWrapper.standard.removeObject(forKey: "OAuth2Token")
+        print("Token removed")
     }
 }
