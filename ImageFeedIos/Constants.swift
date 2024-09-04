@@ -9,4 +9,6 @@ enum Constants {
     
     static let baseURL = "https://unsplash.com"
     static let usersURL = "https://api.unsplash.com/users/"
+    
+    static let profileURL = "https://api.unsplash.com/me"
 }
