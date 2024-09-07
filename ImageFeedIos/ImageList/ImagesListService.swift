@@ -101,6 +101,7 @@ final class ImagesListService {
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                             
+                            print("[ImagesListService] Successed to decode photos")
                             completion(.success(()))
                         case .failure(let error):
                             print("[ImagesListService] Error fetching photos: \(error)")
