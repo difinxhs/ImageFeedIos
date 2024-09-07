@@ -48,7 +48,6 @@ extension URLSession {
                 do {
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(T.self, from: data)
-                    print("Successful decode JSON: \(result)")
                     completion(.success(result))
                 } catch {
                     print("Failed to decode JSON: \(error)")
