@@ -17,6 +17,7 @@ final class ProfileImageService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
+    //TODO: вынести модели в отдельные файлы
     struct UserResult: Codable {
         let profile_image: [String: String]
     }
