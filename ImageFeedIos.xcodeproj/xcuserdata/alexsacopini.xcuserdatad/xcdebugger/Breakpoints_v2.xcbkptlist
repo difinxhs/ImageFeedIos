@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "B7817BDC-1FB4-4559-8396-1B34FD56BA27"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "57028CC3-F5F6-462E-9F9E-BFAEA0A200E8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageFeedIos/ImageList/ImagesListService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "fetchPhotosNextPage()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D88ABD7-D419-46CA-ADE8-58EC7227FFBD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ImageFeedIos/ImageList/ImagesListService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "fetchPhotosNextPage()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4D88ABD7-D419-46CA-ADE8-58EC7227FFBD - a6425bf87d29a6e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;ImageFeedIos.PhotoResult&gt;, Swift.Error&gt;) -&gt; () in ImageFeedIos.ImagesListService.fetchPhotosNextPage() -&gt; ()"
+                  moduleName = "ImageFeedIos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexsacopini/Documents/dev/projects/ImageFeedIos/ImageFeedIos/ImageList/ImagesListService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80">
+               </Location>
+               <Location
+                  uuid = "4D88ABD7-D419-46CA-ADE8-58EC7227FFBD - a6425bf87d29a6e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;ImageFeedIos.PhotoResult&gt;, Swift.Error&gt;) -&gt; () in ImageFeedIos.ImagesListService.fetchPhotosNextPage() -&gt; ()"
+                  moduleName = "ImageFeedIos"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexsacopini/Documents/dev/projects/ImageFeedIos/ImageFeedIos/ImageList/ImagesListService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

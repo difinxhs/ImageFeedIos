@@ -37,17 +37,13 @@ final class ImagesListService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private (set) var photos: [Photo] = []
-    private var lastLoadedPage: Int = 0
+    private var lastLoadedPage: Int = 1
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
-    private func makePhotosURL(for page: Int, perPage: Int = 10, orderBy: String = "latest") -> URLRequest? {
+    private func makePhotosURL() -> URLRequest? {
         var components = URLComponents(string: Constants.photoURL)
-        components?.queryItems = [
-            URLQueryItem(name: "page", value: String(page)),
-            URLQueryItem(name: "per_page", value: String(perPage)),
-            URLQueryItem(name: "order_by", value: orderBy)
-        ]
+                components?.queryItems = [URLQueryItem(name: "page", value: String(lastLoadedPage))]
         
         guard let url = components?.url else {
             assertionFailure("[ImagesListService] Failed to create URL")
@@ -62,22 +58,20 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
+        print("[ImagesListService] makePhotoURL: \(request)")
         return request
     }
     
-    func fetchPhotosNextPage(perPage: Int = 10, orderBy: String = "latest", completion: @escaping (Result<Void, Error>) -> Void) {
+    func fetchPhotosNextPage() {
         guard task == nil else {
             print("[ImagesListService] Already loading, skip request")
             return
         }
         
-        let nextPage = lastLoadedPage + 1
-        
-        guard let request = makePhotosURL(for: nextPage, perPage: perPage, orderBy: orderBy) else {
-            completion(.failure(ImagesListServiceError.invalidRequest))
+        guard let request = makePhotosURL() else {
             return
         }
-        
+        print("[ImagesListService] Ready to start fetching photos \(request)")
         task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
                     DispatchQueue.main.async {
                         guard let self = self else { return }
@@ -97,15 +91,13 @@ final class ImagesListService {
                             }
                             
                             self.photos.append(contentsOf: newPhotos)
-                            self.lastLoadedPage = nextPage
+                            self.lastLoadedPage += 1
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                             
                             print("[ImagesListService] Successed to decode photos")
-                            completion(.success(()))
                         case .failure(let error):
                             print("[ImagesListService] Error fetching photos: \(error)")
-                            completion(.failure(error))
                         }
                     }
                 }
