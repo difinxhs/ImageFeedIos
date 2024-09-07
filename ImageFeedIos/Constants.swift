@@ -12,5 +12,5 @@ enum Constants {
     
     static let profileURL = "https://api.unsplash.com/me"
     
-    static let photoURL = "https://api.unsplash.com/photo"
+    static let photoURL = "https://api.unsplash.com/photos"
 }

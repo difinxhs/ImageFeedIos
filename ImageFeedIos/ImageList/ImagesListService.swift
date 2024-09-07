@@ -78,19 +78,19 @@ final class ImagesListService {
                         
                         switch result {
                         case .success(let photoResults):
-                            let newPhotos = photoResults.map { result in
-                                return Photo(
-                                    id: result.id,
-                                    size: CGSize(width: result.width, height: result.height),
-                                    createdAt: self.parseDate(result.created_at),
-                                    welcomeDescription: result.description,
-                                    thumbImageURL: result.urls.thumb,
-                                    largeImageURL: result.urls.regular,
-                                    isLiked: result.liked_by_user
-                                )
-                            }
                             
-                            self.photos.append(contentsOf: newPhotos)
+                            self.photos.append(contentsOf: photoResults.map {
+                                result in
+                                    .init(
+                                        id: result.id,
+                                        size: CGSize(width: result.width, height: result.height),
+                                        createdAt: self.parseDate(result.created_at),
+                                        welcomeDescription: result.description,
+                                        thumbImageURL: result.urls.thumb,
+                                        largeImageURL: result.urls.regular,
+                                        isLiked: result.liked_by_user
+                                    )
+                            })
                             self.lastLoadedPage += 1
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
