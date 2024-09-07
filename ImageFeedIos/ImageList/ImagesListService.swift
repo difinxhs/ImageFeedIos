@@ -38,7 +38,6 @@ final class ImagesListService {
     private var task: URLSessionTask?
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 0
-    private var isLoading = false
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
@@ -67,7 +66,7 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage(perPage: Int = 10, orderBy: String = "latest", completion: @escaping (Result<Void, Error>) -> Void) {
-        guard !isLoading else {
+        guard task == nil else {
             print("[ImagesListService] Already loading, skip request")
             return
         }
@@ -79,55 +78,43 @@ final class ImagesListService {
             return
         }
         
-        isLoading = true
-        
-        task = urlSession.dataTask(with: request) { [weak self] data, response, error in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                self.isLoading = false
-                
-                if let error = error {
-                    print("[ImagesListService] Error fetching photos: \(error)")
-                    completion(.failure(error))
-                    return
-                }
-                
-                guard let data = data else {
-                    completion(.failure(ImagesListServiceError.invalidRequest))
-                    return
-                }
-                
-                do {
-                    let photoResults = try JSONDecoder().decode([PhotoResult].self, from: data)
-                    
-                    let newPhotos = photoResults.map { result in
-                        return Photo(
-                            id: result.id,
-                            size: CGSize(width: result.width, height: result.height),
-                            createdAt: self.parseDate(result.created_at),
-                            welcomeDescription: result.description,
-                            thumbImageURL: result.urls.thumb,
-                            largeImageURL: result.urls.regular,
-                            isLiked: result.liked_by_user
-                        )
+        task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+                    DispatchQueue.main.async {
+                        guard let self = self else { return }
+                        
+                        switch result {
+                        case .success(let photoResults):
+                            let newPhotos = photoResults.map { result in
+                                return Photo(
+                                    id: result.id,
+                                    size: CGSize(width: result.width, height: result.height),
+                                    createdAt: self.parseDate(result.created_at),
+                                    welcomeDescription: result.description,
+                                    thumbImageURL: result.urls.thumb,
+                                    largeImageURL: result.urls.regular,
+                                    isLiked: result.liked_by_user
+                                )
+                            }
+                            
+                            self.photos.append(contentsOf: newPhotos)
+                            self.lastLoadedPage = nextPage
+                            
+                            NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
+                            
+                            completion(.success(()))
+                        case .failure(let error):
+                            print("[ImagesListService] Error fetching photos: \(error)")
+                            completion(.failure(error))
+                        }
                     }
-                    self.photos.append(contentsOf: newPhotos)
-                    self.lastLoadedPage += 1
-                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
-                    completion(.success(()))
-                } catch {
-                    print("[ImagesListService] Failed to decode photos: \(error)")
-                    completion(.failure(ImagesListServiceError.decodingError))
                 }
-            }
-        }
         
         task?.resume()
     }
     
     private func parseDate(_ dateString: String?) -> Date? {
         guard let dateString = dateString else { return nil }
-        let dateFormatter = ISO8601DateFormatter()
+        let dateFormatter = DateFormatter()
         return dateFormatter.date(from: dateString)
     }
 }
