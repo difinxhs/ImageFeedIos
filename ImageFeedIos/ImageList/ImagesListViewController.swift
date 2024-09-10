@@ -29,6 +29,7 @@ final class ImagesListViewController: UIViewController {
             print("[ImagesListViewController] Notification received")
             self.updateTableViewAnimated()
         }
+        //TODO: сделать комплишн на ошибки в fetchPhotosNextPage. Обработать их тут и если ошибки нет, то использовать updateTableViewAnimated
         updateTableViewAnimated()
         imagesListService.fetchPhotosNextPage()
     }
@@ -73,34 +74,30 @@ extension ImagesListViewController {
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photos[indexPath.row]
         let placeholderImage = UIImage(named: "placeholderImage")
-        cell.imagePhotoView.kf.indicatorType = .activity
         
+        cell.imagePhotoView.kf.indicatorType = .activity
         cell.imagePhotoView.kf.setImage(
             with: URL(string: photo.thumbImageURL),
             placeholder: placeholderImage,
             options: nil,
             completionHandler: { result in
                 switch result {
-                case .success(_):
-                    // Перезагружать ячейку только при необходимости (например, если высота изображения изменилась)
-                     DispatchQueue.main.async {
-                         self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                     }
-                    break
+                case .success(let value):
+                    print("[ImagesListViewController] Image loaded successfully for row \(indexPath.row)")
                 case .failure(let error):
                     print("[ImagesListViewController] Error loading image: \(error)")
                 }
             }
         )
-
         
         let dateFormatter = DateFormatter()
-                dateFormatter.dateStyle = .long
-                cell.dateLabel.text = dateFormatter.string(from: photo.createdAt ?? Date())
+        dateFormatter.dateStyle = .long
+        cell.dateLabel.text = dateFormatter.string(from: photo.createdAt ?? Date())
         
         let likeImageName = photo.isLiked ? "LikeButtonOn" : "LikeButtonOff"
-                cell.likeButton.setImage(UIImage(named: likeImageName), for: .normal)
+        cell.likeButton.setImage(UIImage(named: likeImageName), for: .normal)
     }
+
 }
 
 // MARK: - UITableViewDataSource
