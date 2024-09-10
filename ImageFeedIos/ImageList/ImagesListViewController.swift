@@ -8,6 +8,10 @@ final class ImagesListViewController: UIViewController {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
+    private var imagesListService = ImagesListService()
+    
+    private var photos: [Photo] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +32,20 @@ final class ImagesListViewController: UIViewController {
             viewController.image = image
         } else {
             super.prepare(for: segue, sender: sender)
+        }
+    }
+    
+    func updateTableViewAnimated() {
+        let oldCount = photos.count
+        let newCount = imagesListService.photos.count
+        photos = imagesListService.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { i in
+                    IndexPath(row: i, section: 0)
+                }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
         }
     }
 }
