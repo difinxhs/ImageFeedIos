@@ -63,10 +63,6 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
-        guard task == nil else {
-            print("[ImagesListService] Already loading, skip request")
-            return
-        }
         
         guard let request = makePhotosURL() else {
             return
@@ -94,8 +90,9 @@ final class ImagesListService {
                             self.lastLoadedPage += 1
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
-                            
-                            print("[ImagesListService] Successed to decode photos")
+                            let didChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
+                            print("[ImagesListService] Success, photos count: \(photoResults.count)")
+                            print("[ImagesListService] Notification sended. Successed to decode photos")
                         case .failure(let error):
                             print("[ImagesListService] Error fetching photos: \(error)")
                         }

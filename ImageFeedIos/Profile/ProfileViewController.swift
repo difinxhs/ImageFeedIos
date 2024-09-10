@@ -38,9 +38,9 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
+                print("[ProfileViewController] profileImageServiceObserver is working")
                 self.updateAvatar()
             }
-        print("[ProfileViewController] profileImageServiceObserver is working")
         updateAvatar()
     }
     

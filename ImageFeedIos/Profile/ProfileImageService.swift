@@ -76,6 +76,7 @@ final class ProfileImageService {
                         self.avatarURL = userImage.small
                         if let avatarURL = self.avatarURL {
                             print("[ProfileImageService] Successed to decode UserImage")
+                            NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self)
                             completion(.success(avatarURL))
                         } else {
                             print("[ProfileImageService] Invalid request UserImage")
