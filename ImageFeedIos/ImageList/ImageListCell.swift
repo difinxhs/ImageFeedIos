@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     
@@ -20,7 +21,7 @@ final class ImagesListCell: UITableViewCell {
     }
     
     func setIsLiked (_ isLiked: Bool) {
-        let likeImageName = isLiked ? "LikeButonOn" : "LikeButtonOff"
+        let likeImageName = isLiked ? "LikeButtonOn" : "LikeButtonOff"
         likeButton.setImage(UIImage(named: likeImageName), for: .normal)
     }
 }
