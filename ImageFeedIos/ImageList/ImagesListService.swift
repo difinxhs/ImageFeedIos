@@ -63,7 +63,9 @@ final class ImagesListService {
     }
     
     private func makePhotoLikesURL(for photo: Photo) -> URLRequest? {
-        guard let url = URL(string: "\(Constants.photoURL)/\(photo.id)/like") else {
+        let photoId = photo.id
+        
+        guard let url = URL(string: "\(Constants.photoURL)/\(photoId)/like") else {
             assertionFailure("[ImagesListService] Failed to create LikesImageURL")
             return nil
         }
@@ -72,7 +74,7 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         
         if photo.isLiked == false {
-            request.httpBody = "POST"
+            request.httpMethod = "POST"
             print("[ImagesListService] Photo liked")
         } else {
             request.httpMethod = "DELETE"
@@ -128,4 +130,49 @@ final class ImagesListService {
         let dateFormatter = ISO8601DateFormatter()
         return dateFormatter.date(from: dateString)
     }
+    
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+        // Поиск фото по идентификатору
+        guard let index = photos.firstIndex(where: { $0.id == photoId }) else {
+            print("[ImagesListService] Photo not found for id: \(photoId)")
+            return
+        }
+        
+        let photo = photos[index]
+        
+        // Генерация запроса с помощью найденного объекта Photo
+        guard let request = makePhotoLikesURL(for: photo) else { return }
+        
+        task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                switch result {
+                case .success:
+                    // Копия элемента с инвертированным значением isLiked.
+                    let newPhoto = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        thumbImageURL: photo.thumbImageURL,
+                        largeImageURL: photo.largeImageURL,
+                        isLiked: !photo.isLiked
+                    )
+                    
+                    // Заменяем элемент в массиве.
+                    self.photos[index] = newPhoto
+                    
+                    completion(.success(()))
+                    
+                case .failure(let error):
+                    print("[ImagesListService] Error liking photo: \(error)")
+                    completion(.failure(error))
+                }
+            }
+        }
+        
+        task?.resume()
+    }
+
 }
