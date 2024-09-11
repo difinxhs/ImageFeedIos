@@ -58,7 +58,28 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        print("[ImagesListService] makePhotoURL: \(request)")
+        print("[ImagesListService] makePhotoURL request: \(request)")
+        return request
+    }
+    
+    private func makePhotoLikesURL(for photo: Photo) -> URLRequest? {
+        guard let url = URL(string: "\(Constants.photoURL)/\(photo.id)/like") else {
+            assertionFailure("[ImagesListService] Failed to create LikesImageURL")
+            return nil
+        }
+        
+        print("[ImagesListService] makePhotoLikesURL url: \(url)")
+        var request = URLRequest(url: url)
+        
+        if photo.isLiked == false {
+            request.httpBody = "POST"
+            print("[ImagesListService] Photo liked")
+        } else {
+            request.httpMethod = "DELETE"
+            print("[ImagesListService] Photo disliked")
+        }
+        
+        print("[ImagesListService] makePhotoURL request: \(request)")
         return request
     }
     
@@ -91,7 +112,7 @@ final class ImagesListService {
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                             let didChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
-                            print("[ImagesListService] Success, photos count: \(photoResults/*.count*/)")
+                            print("[ImagesListService] Success, photos count: \(photoResults.count)")
                             print("[ImagesListService] Notification sended. Successed to decode photos")
                         case .failure(let error):
                             print("[ImagesListService] Error fetching photos: \(error)")

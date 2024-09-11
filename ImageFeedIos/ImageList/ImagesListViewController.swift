@@ -56,7 +56,7 @@ final class ImagesListViewController: UIViewController {
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
         
-        print("[ImagesListViewController] Old count: \(oldCount), New count: \(newCount), Photos: \(photos.count)")
+        print("[ImagesListViewController] Old count: \(oldCount), New count: \(newCount)")
         
         if oldCount != newCount {
             tableView.performBatchUpdates {

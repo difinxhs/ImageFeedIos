@@ -14,4 +14,7 @@ final class ImagesListCell: UITableViewCell {
             imagePhotoView.kf.cancelDownloadTask()
             imagePhotoView.image = nil
         }
+    @IBAction func likeButtonDidTap(_ sender: Any) {
+        
+    }
 }
