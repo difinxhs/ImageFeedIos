@@ -91,7 +91,7 @@ final class ImagesListService {
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
                             let didChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
-                            print("[ImagesListService] Success, photos count: \(photoResults.count)")
+                            print("[ImagesListService] Success, photos count: \(photoResults/*.count*/)")
                             print("[ImagesListService] Notification sended. Successed to decode photos")
                         case .failure(let error):
                             print("[ImagesListService] Error fetching photos: \(error)")
@@ -104,7 +104,7 @@ final class ImagesListService {
     
     private func parseDate(_ dateString: String?) -> Date? {
         guard let dateString = dateString else { return nil }
-        let dateFormatter = DateFormatter()
+        let dateFormatter = ISO8601DateFormatter()
         return dateFormatter.date(from: dateString)
     }
 }
