@@ -138,7 +138,6 @@ final class ImagesListService {
     }
     
     func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
-        // Поиск фото по идентификатору
         guard let index = photos.firstIndex(where: { $0.id == photoId }) else {
             print("[ImagesListService] Photo not found for id: \(photoId)")
             return
@@ -146,39 +145,43 @@ final class ImagesListService {
         
         let photo = photos[index]
         
-        // Генерация запроса с помощью найденного объекта Photo
         guard let request = makePhotoLikesURL(for: photo) else { return }
         
-        task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+        let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
                 guard let self = self else { return }
-                
-                switch result {
-                case .success:
-                    // Копия элемента с инвертированным значением isLiked.
-                    let newPhoto = Photo(
-                        id: photo.id,
-                        size: photo.size,
-                        createdAt: photo.createdAt,
-                        welcomeDescription: photo.welcomeDescription,
-                        thumbImageURL: photo.thumbImageURL,
-                        largeImageURL: photo.largeImageURL,
-                        isLiked: !photo.isLiked
-                    )
-                    
-                    // Заменяем элемент в массиве.
-                    self.photos[index] = newPhoto
-                    
-                    completion(.success(()))
-                    
-                case .failure(let error):
+
+                if let error = error {
                     print("[ImagesListService] Error liking photo: \(error)")
                     completion(.failure(error))
+                    return
+                }
+
+                if let httpResponse = response as? HTTPURLResponse, (httpResponse.statusCode == 200 || httpResponse.statusCode == 201) {
+                    if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                        let photo = self.photos[index]
+                        
+                        let newPhoto = Photo(
+                            id: photo.id,
+                            size: photo.size,
+                            createdAt: photo.createdAt,
+                            welcomeDescription: photo.welcomeDescription,
+                            thumbImageURL: photo.thumbImageURL,
+                            largeImageURL: photo.largeImageURL,
+                            isLiked: !photo.isLiked
+                        )
+                        self.photos[index] = newPhoto
+                        completion(.success(()))
+                    }
+                } else {
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+                    print("[ImagesListService] Error: Server returned status code \(statusCode)")
+                    let serverError = NSError(domain: "", code: statusCode, userInfo: nil)
+                    completion(.failure(serverError))
                 }
             }
         }
         
-        task?.resume()
+        task.resume()
     }
-
 }
