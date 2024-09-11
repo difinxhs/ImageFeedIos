@@ -81,6 +81,12 @@ final class ImagesListService {
             print("[ImagesListService] Photo disliked")
         }
         
+        guard let token = storage.token else {
+            assertionFailure("[ImagesListService] Failed to get Token")
+            return nil
+        }
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
         print("[ImagesListService] makePhotoURL request: \(request)")
         return request
     }

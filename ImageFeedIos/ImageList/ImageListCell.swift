@@ -1,11 +1,12 @@
 import UIKit
-import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     
     @IBOutlet weak var imagePhotoView: UIImageView!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
+    
+    weak var delegate: ImagesListCellDelegate?
     
     static let reuseIdentifier = "ImagesListCell"
     
@@ -14,7 +15,12 @@ final class ImagesListCell: UITableViewCell {
             imagePhotoView.kf.cancelDownloadTask()
             imagePhotoView.image = nil
         }
-    @IBAction func likeButtonDidTap(_ sender: Any) {
-        
+    @IBAction private func likeButtonDidTap() {
+        delegate?.imageListCellDidTapLike(self)
+    }
+    
+    func setIsLiked (_ isLiked: Bool) {
+        let likeImageName = isLiked ? "LikeButonOn" : "LikeButtonOff"
+        likeButton.setImage(UIImage(named: likeImageName), for: .normal)
     }
 }
