@@ -9,7 +9,7 @@ final class ImagesListViewController: UIViewController {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
-    private var imagesListService = ImagesListService.shared    
+    private var imagesListService = ImagesListService.shared
     private var photos: [Photo] = []
     
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -28,7 +28,6 @@ final class ImagesListViewController: UIViewController {
             print("[ImagesListViewController] Notification received")
             self.updateTableViewAnimated()
         }
-        //TODO: сделать комплишн на ошибки в fetchPhotosNextPage. Обработать их тут и если ошибки нет, то использовать updateTableViewAnimated
         updateTableViewAnimated()
         imagesListService.fetchPhotosNextPage()
     }
