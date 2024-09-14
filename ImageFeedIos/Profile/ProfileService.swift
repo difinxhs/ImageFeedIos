@@ -24,6 +24,11 @@ final class ProfileService {
         return trueUsername
     }
     
+    func cleanProfile() {
+        profile = nil
+        print("[ProfileService] cleanProfile? \(profile)")
+    }
+    
     private func makeProfileURL () -> URLRequest? {
         guard let url = URL(string: Constants.profileURL) else {
             assertionFailure("[ProfileService] Failed to create ProfileURL")

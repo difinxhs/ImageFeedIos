@@ -30,6 +30,11 @@ final class ProfileImageService {
         }
     }
     
+    func cleanAvatarURL () {
+        avatarURL = nil
+        print("[ProfileImageService] cleanAvatar? \(avatarURL)")
+    }
+    
     private func makeAvatarURL() -> URLRequest? {
         
         let username = ProfileService.shared.giveMeUsername()

@@ -9,8 +9,7 @@ final class ImagesListViewController: UIViewController {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
-    private var imagesListService = ImagesListService()
-    
+    private var imagesListService = ImagesListService.shared    
     private var photos: [Photo] = []
     
     private var imagesListServiceObserver: NSObjectProtocol?

@@ -33,6 +33,9 @@ struct UrlsResult: Decodable {
 }
 
 final class ImagesListService {
+    static let shared = ImagesListService()
+    private init() {}
+    
     private let storage = OAuth2TokenStorage()
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -40,6 +43,11 @@ final class ImagesListService {
     private var lastLoadedPage: Int = 1
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    
+    func cleanPhotosList() {
+        photos = []
+        print("[ImagesListService] cleanPhotosList? \(photos.isEmpty)")
+    }
     
     private func makePhotosURL() -> URLRequest? {
         var components = URLComponents(string: Constants.photoURL)

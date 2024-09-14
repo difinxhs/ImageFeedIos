@@ -27,6 +27,7 @@
 		15A445142C59598E00D0B934 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A445132C59598E00D0B934 /* AuthViewController.swift */; };
 		15A445162C595B1A00D0B934 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A445152C595B1A00D0B934 /* WebViewViewController.swift */; };
 		15AC3F3F2C580CC800698278 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AC3F3E2C580CC800698278 /* Constants.swift */; };
+		15C3027C2C960FA800A78ED7 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C3027B2C960FA800A78ED7 /* ProfileLogoutService.swift */; };
 		15CB5A742C3EFA7D00CA5CD7 /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB5A732C3EFA7D00CA5CD7 /* ImageListCell.swift */; };
 		15CB5A782C4BD79C00CA5CD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB5A772C4BD79C00CA5CD7 /* ProfileViewController.swift */; };
 		15CB5A7C2C4BF27D00CA5CD7 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CB5A7B2C4BF27D00CA5CD7 /* SingleImageViewController.swift */; };
@@ -69,6 +70,7 @@
 		15A445132C59598E00D0B934 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		15A445152C595B1A00D0B934 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		15AC3F3E2C580CC800698278 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		15C3027B2C960FA800A78ED7 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		15CB5A732C3EFA7D00CA5CD7 /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
 		15CB5A772C4BD79C00CA5CD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		15CB5A7B2C4BF27D00CA5CD7 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				15ECCE6C2C73BE5F00114C43 /* ProfileImageService.swift */,
 				15E4309D2C8865E900255CC1 /* ProfileModel.swift */,
 				15E4309F2C8865FF00255CC1 /* ProfileResultModel.swift */,
+				15C3027B2C960FA800A78ED7 /* ProfileLogoutService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				1508BC772C610BF8008FFB2C /* OAuth2TokenStorage.swift in Sources */,
 				153B64572C8CCF0E00A10709 /* ImagesListService.swift in Sources */,
 				15707DFC2C3C63ED005093BB /* ImagesListViewController.swift in Sources */,
+				15C3027C2C960FA800A78ED7 /* ProfileLogoutService.swift in Sources */,
 				15CB5A742C3EFA7D00CA5CD7 /* ImageListCell.swift in Sources */,
 				15F5E2A92C8113C300EF8720 /* TabBarController.swift in Sources */,
 				158FD1022C6D47ED00F10138 /* UIBlockingProgressHUD.swift in Sources */,

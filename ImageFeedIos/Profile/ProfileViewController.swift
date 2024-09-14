@@ -143,7 +143,12 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func exitButtonDidTap(_ sender: Any) {
-        KeychainWrapper.standard.removeObject(forKey: "OAuth2Token")
-        print("Token removed")
+        ProfileLogoutService.shared.logout()
+        guard let window = UIApplication.shared.windows.first else {
+                    assertionFailure("Invalid window configuration")
+                    return
+                }
+                window.rootViewController = SplashViewController()
+                window.makeKeyAndVisible()
     }
 }
