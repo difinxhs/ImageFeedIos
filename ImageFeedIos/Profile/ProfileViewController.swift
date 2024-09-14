@@ -143,12 +143,23 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func exitButtonDidTap(_ sender: Any) {
-        ProfileLogoutService.shared.logout()
-        guard let window = UIApplication.shared.windows.first else {
-                    assertionFailure("Invalid window configuration")
-                    return
-                }
-                window.rootViewController = SplashViewController()
-                window.makeKeyAndVisible()
+        let alert = UIAlertController(title: "Пока, пока!",
+                                      message: "Уверены что хотите выйти?",
+                                      preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Нет", style: .default) { _ in
+            alert.dismiss(animated: true)
+        }
+        let action = UIAlertAction(title: "Да", style: .default) { _ in
+            ProfileLogoutService.shared.logout()
+            guard let window = UIApplication.shared.windows.first else {
+                        assertionFailure("Invalid window configuration")
+                        return
+                    }
+                    window.rootViewController = SplashViewController()
+                    window.makeKeyAndVisible()
+        }
+        alert.addAction(action)
+        alert.addAction(dismiss)
+        self.present(alert, animated: true, completion: nil)
     }
 }
