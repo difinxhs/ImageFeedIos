@@ -251,14 +251,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="414" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="abt-BJ-qaZ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="414" minimumZoomScale="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="abt-BJ-qaZ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="tuE-3K-vBu">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="tuE-3K-vBu">
                                         <rect key="frame" x="0.0" y="0.0" width="271" height="352"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="tuE-3K-vBu" firstAttribute="leading" secondItem="abt-BJ-qaZ" secondAttribute="leading" id="Jjw-bY-2cT"/>
+                                    <constraint firstAttribute="bottom" secondItem="tuE-3K-vBu" secondAttribute="bottom" id="LkT-zb-buZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="tuE-3K-vBu" secondAttribute="trailing" id="QQI-Ea-lI4"/>
+                                    <constraint firstItem="tuE-3K-vBu" firstAttribute="top" secondItem="abt-BJ-qaZ" secondAttribute="top" id="h0a-JE-nSY"/>
+                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="jNd-hK-oOq"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="r1o-G2-WZP"/>
                                 <connections>

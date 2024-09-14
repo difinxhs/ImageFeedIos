@@ -12,7 +12,7 @@ struct Photo {
     let createdAt: Date?
     let welcomeDescription: String?
     let thumbImageURL: String
-    let largeImageURL: String
+    let fullImageURL: String
     let isLiked: Bool
 }
 
@@ -28,7 +28,7 @@ struct PhotoResult: Decodable {
 }
 
 struct UrlsResult: Decodable {
-    let regular: String
+    let full: String
     let thumb: String
 }
 
@@ -112,7 +112,7 @@ final class ImagesListService {
                                         createdAt: self.parseDate(result.created_at),
                                         welcomeDescription: result.description,
                                         thumbImageURL: result.urls.thumb,
-                                        largeImageURL: result.urls.regular,
+                                        fullImageURL: result.urls.full,
                                         isLiked: result.liked_by_user
                                     )
                             })
@@ -167,7 +167,7 @@ final class ImagesListService {
                             createdAt: photo.createdAt,
                             welcomeDescription: photo.welcomeDescription,
                             thumbImageURL: photo.thumbImageURL,
-                            largeImageURL: photo.largeImageURL,
+                            fullImageURL: photo.fullImageURL,
                             isLiked: !photo.isLiked
                         )
                         self.photos[index] = newPhoto

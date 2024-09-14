@@ -40,16 +40,17 @@ final class ImagesListViewController: UIViewController {
                 let viewController = segue.destination as? SingleImageViewController,
                 let indexPath = sender as? IndexPath
             else {
-                assertionFailure("[ImagesListViewController] Invalid segue destination")
+                assertionFailure("[ImagesListViewController] Invalid segue destination or sender")
                 return
             }
             
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
+            let selectedPhoto = photos[indexPath.row]
+            viewController.fullImageURL = selectedPhoto.fullImageURL
         } else {
             super.prepare(for: segue, sender: sender)
         }
     }
+
     
     func updateTableViewAnimated() {
         let oldCount = photos.count
