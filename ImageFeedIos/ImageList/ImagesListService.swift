@@ -130,7 +130,10 @@ final class ImagesListService {
         
         let photo = photos[index]
         
-        guard let request = makePhotoLikesURL(for: photo) else { return }
+        guard let request = makePhotoLikesURL(for: photo) else {
+            assertionFailure("[ImagesListService] Failed to create ProfileImageURL")
+            return
+        }
         
         let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
