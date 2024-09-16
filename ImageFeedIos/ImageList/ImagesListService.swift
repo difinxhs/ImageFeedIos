@@ -79,10 +79,14 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
+        assert(Thread.isMainThread)
+        task?.cancel()
         
         guard let request = makePhotosURL() else {
+            assertionFailure("[ImagesListService] \(ImagesListServiceError.invalidRequest)")
             return
         }
+        
         print("[ImagesListService] Ready to start fetching photos \(request)")
         task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             DispatchQueue.main.async {
@@ -131,7 +135,7 @@ final class ImagesListService {
         let photo = photos[index]
         
         guard let request = makePhotoLikesURL(for: photo) else {
-            assertionFailure("[ImagesListService] Failed to create ProfileImageURL")
+            assertionFailure("[ImagesListService] Failed to check URL changeLike")
             return
         }
         
