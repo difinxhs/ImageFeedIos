@@ -6,32 +6,6 @@ enum ImagesListServiceError: Error {
     case decodingError
 }
 
-struct Photo {
-    let id: String
-    let size: CGSize
-    let createdAt: Date?
-    let welcomeDescription: String?
-    let thumbImageURL: String
-    let fullImageURL: String
-    let isLiked: Bool
-}
-
-struct PhotoResult: Decodable {
-    let id: String
-    let created_at: String?
-    let width: Int
-    let height: Int
-    let description: String?
-    let likes: Int
-    let liked_by_user: Bool
-    let urls: UrlsResult
-}
-
-struct UrlsResult: Decodable {
-    let full: String
-    let thumb: String
-}
-
 final class ImagesListService {
     static let shared = ImagesListService()
     private init() {}
@@ -41,6 +15,11 @@ final class ImagesListService {
     private var task: URLSessionTask?
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int = 1
+    
+    private let dateFormatter: ISO8601DateFormatter = {
+           let formatter = ISO8601DateFormatter()
+           return formatter
+       }()
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
@@ -127,7 +106,6 @@ final class ImagesListService {
                             self.lastLoadedPage += 1
                             
                             NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: self)
-                            let didChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
                             print("[ImagesListService] Success, photos count: \(photoResults.count)")
                             print("[ImagesListService] Notification sended. Successed to decode photos")
                         case .failure(let error):
@@ -140,10 +118,9 @@ final class ImagesListService {
     }
     
     private func parseDate(_ dateString: String?) -> Date? {
-        guard let dateString = dateString else { return nil }
-        let dateFormatter = ISO8601DateFormatter()
-        return dateFormatter.date(from: dateString)
-    }
+            guard let dateString = dateString else { return nil }
+            return dateFormatter.date(from: dateString)
+        }
     
     func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let index = photos.firstIndex(where: { $0.id == photoId }) else {
