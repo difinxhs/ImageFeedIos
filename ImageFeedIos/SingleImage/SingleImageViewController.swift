@@ -78,11 +78,11 @@ final class SingleImageViewController: UIViewController {
         let alert = UIAlertController(title: "Что-то пошло не так",
                                       message: "Попробовать ещё раз?",
                                       preferredStyle: .alert)
-        let action = UIAlertAction(title: "Не надо", style: .default) { _ in
+        let action = UIAlertAction(title: "Не надо", style: .default) { [weak self] _ in
             alert.dismiss(animated: true)
         }
-        let reload = UIAlertAction(title: "Повторить", style: .default) { [self] _ in
-            self.loadImage()
+        let reload = UIAlertAction(title: "Повторить", style: .default) { [weak self] _ in
+            self?.loadImage()
         }
         alert.addAction(action)
         alert.addAction(reload)
