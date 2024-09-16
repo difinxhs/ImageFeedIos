@@ -48,7 +48,7 @@ final class ImagesListViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-
+    
     
     func updateTableViewAnimated() {
         let oldCount = photos.count
@@ -96,7 +96,7 @@ extension ImagesListViewController {
         let likeImageName = photo.isLiked ? "LikeButtonOn" : "LikeButtonOff"
         cell.likeButton.setImage(UIImage(named: likeImageName), for: .normal)
     }
-
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -120,7 +120,7 @@ extension ImagesListViewController: UITableViewDataSource {
         
         return imageListCell
     }
-
+    
 }
 
 // MARK: - UITableViewDelegate
@@ -139,7 +139,7 @@ extension ImagesListViewController: UITableViewDelegate {
         let cellHeight = photo.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
     }
-
+    
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == photos.count - 1 {
@@ -152,10 +152,10 @@ extension ImagesListViewController: UITableViewDelegate {
 extension ImagesListViewController: ImagesListCellDelegate {
     
     func imageListCellDidTapLike(_ cell: ImagesListCell) {
-    
-      guard let indexPath = tableView.indexPath(for: cell) else { return }
-      let photo = photos[indexPath.row]
-     UIBlockingProgressHUD.show()
+        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
         imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { result in
             UIBlockingProgressHUD.dismiss()
             switch result {

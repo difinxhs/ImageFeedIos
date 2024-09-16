@@ -152,11 +152,11 @@ final class ProfileViewController: UIViewController {
         let action = UIAlertAction(title: "Да", style: .default) { _ in
             ProfileLogoutService.shared.logout()
             guard let window = UIApplication.shared.windows.first else {
-                        assertionFailure("Invalid window configuration")
-                        return
-                    }
-                    window.rootViewController = SplashViewController()
-                    window.makeKeyAndVisible()
+                assertionFailure("Invalid window configuration")
+                return
+            }
+            window.rootViewController = SplashViewController()
+            window.makeKeyAndVisible()
         }
         alert.addAction(action)
         alert.addAction(dismiss)

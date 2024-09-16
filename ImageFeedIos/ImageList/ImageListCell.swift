@@ -12,10 +12,10 @@ final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
     
     override func prepareForReuse() {
-            super.prepareForReuse()
-            imagePhotoView.kf.cancelDownloadTask()
-            imagePhotoView.image = nil
-        }
+        super.prepareForReuse()
+        imagePhotoView.kf.cancelDownloadTask()
+        imagePhotoView.image = nil
+    }
     @IBAction private func likeButtonDidTap() {
         delegate?.imageListCellDidTapLike(self)
     }
