@@ -79,7 +79,14 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
-        assert(Thread.isMainThread)
+        
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.fetchPhotosNextPage()
+            }
+            return
+        }
+        
         task?.cancel()
         
         guard let request = makePhotosURL() else {
