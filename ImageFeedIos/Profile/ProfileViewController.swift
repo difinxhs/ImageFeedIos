@@ -38,9 +38,9 @@ final class ProfileViewController: UIViewController {
                 queue: .main
             ) { [weak self] _ in
                 guard let self = self else { return }
+                print("[ProfileViewController] profileImageServiceObserver is working")
                 self.updateAvatar()
             }
-        print("[ProfileViewController] profileImageServiceObserver is working")
         updateAvatar()
     }
     
@@ -143,7 +143,23 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func exitButtonDidTap(_ sender: Any) {
-        KeychainWrapper.standard.removeObject(forKey: "OAuth2Token")
-        print("Token removed")
+        let alert = UIAlertController(title: "Пока, пока!",
+                                      message: "Уверены что хотите выйти?",
+                                      preferredStyle: .alert)
+        let dismiss = UIAlertAction(title: "Нет", style: .default) { _ in
+            alert.dismiss(animated: true)
+        }
+        let action = UIAlertAction(title: "Да", style: .default) { _ in
+            ProfileLogoutService.shared.logout()
+            guard let window = UIApplication.shared.windows.first else {
+                assertionFailure("Invalid window configuration")
+                return
+            }
+            window.rootViewController = SplashViewController()
+            window.makeKeyAndVisible()
+        }
+        alert.addAction(action)
+        alert.addAction(dismiss)
+        self.present(alert, animated: true, completion: nil)
     }
 }

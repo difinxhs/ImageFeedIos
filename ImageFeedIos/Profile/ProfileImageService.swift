@@ -17,6 +17,7 @@ final class ProfileImageService {
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
+    //TODO: вынести модели в отдельные файлы
     struct UserResult: Codable {
         let profile_image: [String: String]
     }
@@ -27,6 +28,11 @@ final class ProfileImageService {
         init(userResult: UserResult) {
             self.small = userResult.profile_image["small"]
         }
+    }
+    
+    func cleanAvatarURL () {
+        avatarURL = nil
+        print("[ProfileImageService] cleanAvatar? \(avatarURL)")
     }
     
     private func makeAvatarURL() -> URLRequest? {
@@ -75,6 +81,7 @@ final class ProfileImageService {
                         self.avatarURL = userImage.small
                         if let avatarURL = self.avatarURL {
                             print("[ProfileImageService] Successed to decode UserImage")
+                            NotificationCenter.default.post(name: ProfileImageService.didChangeNotification, object: self)
                             completion(.success(avatarURL))
                         } else {
                             print("[ProfileImageService] Invalid request UserImage")
