@@ -8,6 +8,7 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 public protocol WebViewViewControllerProtocol: AnyObject {
     var presenter: WebViewPresenterProtocol? { get set }
+    func load(request: URLRequest)
 }
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
@@ -25,8 +26,10 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     }
     
     override func viewDidLoad() {
-        loadAuthView()
+        super.viewDidLoad()
+        
         webView.navigationDelegate = self
+        presenter?.viewDidLoad()
         
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
@@ -45,6 +48,10 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+    }
+    
+    func load(request: URLRequest) {
+        webView.load(request)
     }
 }
 //MARK: WKNavigationDelegate
@@ -67,20 +74,20 @@ extension WebViewViewController: WKNavigationDelegate {
 private extension WebViewViewController {
     
     //Запрос на сервер с аутентификацией
-    func loadAuthView() {
-        var components = URLComponents(string: "https://unsplash.com/oauth/authorize")
-        components?.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope)
-        ]
-        
-        if let url = components?.url {
-            let request = URLRequest(url: url)
-            webView.load(request)
-        }
-    }
+//    func loadAuthView() {
+//        var components = URLComponents(string: "https://unsplash.com/oauth/authorize")
+//        components?.queryItems = [
+//            URLQueryItem(name: "client_id", value: Constants.accessKey),
+//            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+//            URLQueryItem(name: "response_type", value: "code"),
+//            URLQueryItem(name: "scope", value: Constants.accessScope)
+//        ]
+//        
+//        if let url = components?.url {
+//            let request = URLRequest(url: url)
+//            webView.load(request)
+//        }
+//    }
     
     func fetchCode(url: URL?) -> String? {
         guard let url = url,
