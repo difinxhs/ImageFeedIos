@@ -6,9 +6,15 @@ protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
-final class WebViewViewController: UIViewController {
+public protocol WebViewViewControllerProtocol: AnyObject {
+    var presenter: WebViewPresenterProtocol? { get set }
+}
+
+final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
+    
+    var presenter: WebViewPresenterProtocol?
     
     weak var delegate: WebViewViewControllerDelegate?
     
