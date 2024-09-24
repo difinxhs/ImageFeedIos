@@ -1,9 +1,5 @@
 import UIKit
 
-enum WebViewConstants {
-    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-}
-
 public protocol WebViewPresenterProtocol {
     var view: WebViewViewControllerProtocol? { get set }
     func viewDidLoad()
@@ -15,9 +11,9 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     weak var view: WebViewViewControllerProtocol?
     
     func viewDidLoad() {
-            guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString)
+            guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString)
         else {
-                assertionFailure("[WebViewPresenter] Invalid authorization URL string: \(WebViewConstants.unsplashAuthorizeURLString)")
+                assertionFailure("[WebViewPresenter] Invalid authorization URL string: \(Constants.unsplashAuthorizeURLString)")
                 return
             }
             
