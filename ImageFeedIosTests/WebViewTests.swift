@@ -16,5 +16,20 @@ final class WebViewTests: XCTestCase {
         //then
         XCTAssertTrue(presenter.viewDidLoadCalled) //behaviour verification
     }
+    
+    func testPresenterCallsLoadRequest() {
+        //given
+        let viewController = WebViewViewControllerSpy()
+        let authHelper = AuthHelper()
+        let presenter = WebViewPresenter(authHelper: authHelper)
+        viewController.presenter = presenter
+        presenter.view = viewController
+        
+        //when
+        presenter.viewDidLoad()
+        
+        //then
+        XCTAssertTrue(viewController.loadRequestCalled)
+    }
 }
 
