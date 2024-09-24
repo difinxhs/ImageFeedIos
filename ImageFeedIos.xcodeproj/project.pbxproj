@@ -16,6 +16,8 @@
 		151D8A492C6BFF8E004A5DD3 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 151D8A482C6BFF8E004A5DD3 /* ProgressHUD */; };
 		153170532CA36C8F006E5731 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153170522CA36C81006E5731 /* WebViewPresenter.swift */; };
 		153B64572C8CCF0E00A10709 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153B64562C8CCF0E00A10709 /* ImagesListService.swift */; };
+		153BD5E62CA380E600F91044 /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BD5E22CA37CE600F91044 /* WebViewTests.swift */; };
+		153BD5E72CA380F300F91044 /* WebViewPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BD5E42CA3802200F91044 /* WebViewPresenterSpy.swift */; };
 		155021F72C7C4E2100E8896F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 155021F62C7C4E2100E8896F /* Kingfisher */; };
 		156418892CA3780900D9DF89 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156418882CA3780900D9DF89 /* AuthHelper.swift */; };
 		156B4FBC2C62D02B0081F8CB /* OAuthTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B4FBB2C62D02B0081F8CB /* OAuthTokenModel.swift */; };
@@ -61,6 +63,8 @@
 		1530A3A22C8CE8DB0056B92B /* ImageFeedIosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedIosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		153170522CA36C81006E5731 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		153B64562C8CCF0E00A10709 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		153BD5E22CA37CE600F91044 /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
+		153BD5E42CA3802200F91044 /* WebViewPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenterSpy.swift; sourceTree = "<group>"; };
 		156418882CA3780900D9DF89 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		156B4FBB2C62D02B0081F8CB /* OAuthTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenModel.swift; sourceTree = "<group>"; };
 		15707DF42C3C63ED005093BB /* ImageFeedIos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeedIos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,10 +129,20 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		153BD5DE2CA37C6C00F91044 /* ImageFeedIosTests */ = {
+			isa = PBXGroup;
+			children = (
+				153BD5E42CA3802200F91044 /* WebViewPresenterSpy.swift */,
+				153BD5E22CA37CE600F91044 /* WebViewTests.swift */,
+			);
+			path = ImageFeedIosTests;
+			sourceTree = "<group>";
+		};
 		15707DEB2C3C63ED005093BB = {
 			isa = PBXGroup;
 			children = (
 				15707DF62C3C63ED005093BB /* ImageFeedIos */,
+				153BD5DE2CA37C6C00F91044 /* ImageFeedIosTests */,
 				15707DF52C3C63ED005093BB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -288,6 +302,7 @@
 				TargetAttributes = {
 					1530A3A12C8CE8DB0056B92B = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1600;
 						TestTargetID = 15707DF32C3C63ED005093BB;
 					};
 					15707DF32C3C63ED005093BB = {
@@ -344,6 +359,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				153BD5E62CA380E600F91044 /* WebViewTests.swift in Sources */,
+				153BD5E72CA380F300F91044 /* WebViewPresenterSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +431,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HR3483MW64;
@@ -422,9 +440,14 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.difinxhs.ImageFeedIosTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageFeedIos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ImageFeedIos";
 			};
 			name = Debug;
@@ -433,6 +456,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HR3483MW64;
@@ -441,9 +465,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.difinxhs.ImageFeedIosTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageFeedIos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ImageFeedIos";
 			};
 			name = Release;
