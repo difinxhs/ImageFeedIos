@@ -2,12 +2,19 @@ import UIKit
 import SwiftKeychainWrapper
 import Kingfisher
 
+protocol ProfileViewControllerProtocol: AnyObject {
+    func updateProfile(username: String, name: String, bio: String)
+    func updateAvatar(with url: URL)
+}
+
 final class ProfileViewController: UIViewController {
     @IBOutlet private weak var userPic: UIImageView!
     @IBOutlet private weak var userName: UILabel!
     @IBOutlet private weak var userTag: UILabel!
     @IBOutlet private weak var userDescription: UILabel!
     @IBOutlet private weak var exitButton: UIButton!
+    
+    private var presenter: ProfilePresenterProtocol!
     
     private var label: UILabel?
     
