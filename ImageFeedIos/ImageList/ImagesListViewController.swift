@@ -1,6 +1,13 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListViewControllerProtocol: AnyObject {
+    var presenter: ImagesListPresenterProtocol? { get set }
+    func setLikeState(for row: Int, newState: Bool)
+    func viewDidLoad()
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+}
+
 final class ImagesListViewController: UIViewController {
     
     @IBOutlet private var tableView: UITableView!
@@ -13,6 +20,8 @@ final class ImagesListViewController: UIViewController {
     private var photos: [Photo] = []
     
     private var imagesListServiceObserver: NSObjectProtocol?
+    
+    var presenter: ImagesListPresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()

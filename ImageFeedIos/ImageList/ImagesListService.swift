@@ -133,7 +133,7 @@ final class ImagesListService {
         return dateFormatter.date(from: dateString)
     }
     
-    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Photo, Error>) -> Void) {
         guard let index = photos.firstIndex(where: { $0.id == photoId }) else {
             print("[ImagesListService] Photo not found for id: \(photoId)")
             return
@@ -170,7 +170,7 @@ final class ImagesListService {
                             isLiked: !photo.isLiked
                         )
                         self.photos[index] = newPhoto
-                        completion(.success(()))
+                        completion(.success(newPhoto))
                     }
                 } else {
                     let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
