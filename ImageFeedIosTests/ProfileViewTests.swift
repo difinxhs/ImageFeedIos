@@ -54,9 +54,6 @@ final class ProfilePresenterSpy: ProfilePresenterProtocol {
 
     func viewDidLoad() {
         didCallViewDidLoad = true
-//        if let profile = stubbedProfile {
-//            view?.updateProfile(username: profile.username, name: profile.name, bio: profile.bio)
-//        }
     }
     
     func avatarURL() -> URL? {
