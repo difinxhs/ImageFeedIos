@@ -30,11 +30,11 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
         setupExitButton()
         
         if presenter == nil {
-                    presenter = ProfilePresenter()
-                    presenter.view = self
-                }
-                
-                print("[ProfileViewController] presenter is \(presenter == nil ? "nil" : "set")")
+            presenter = ProfilePresenter()
+            presenter.view = self
+        }
+        
+        print("[ProfileViewController] presenter is \(presenter == nil ? "nil" : "set")")
         
         view.backgroundColor = UIColor(named: "YP Black")
         
@@ -57,10 +57,10 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
                 self.updateAvatar(url: presenter?.avatarURL())
             }
         if let avatarURL = presenter?.avatarURL() {
-                    updateAvatar(url: avatarURL)
-                } else {
-                    print("[ProfileViewController] avatarURL is nil")
-                }
+            updateAvatar(url: avatarURL)
+        } else {
+            print("[ProfileViewController] avatarURL is nil")
+        }
     }
     
     func updateProfileDetails(profile: Profile) {
@@ -70,47 +70,14 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
         userDescription.text = profile.bio
     }
     
-//    private func updateAvatar() {
-//        guard
-//            let profileImageURL = ProfileImageService.shared.avatarURL,
-//            let url = URL(string: profileImageURL)
-//        else { return }
-//        print("[ProfileViewController] ProfileImageURL: \(url)")
-//        let processor = RoundCornerImageProcessor(cornerRadius: 20)
-//        userPic.kf.indicatorType = .activity
-//        userPic.kf.setImage(
-//            with: url,
-//            placeholder: UIImage(named: "Placeholder"),
-//            options: [.processor(processor)]
-//        )
-//        
-//    }
-//    func updateAvatar(url: URL?) {
-//            guard let url else {
-//                debugPrint("[ProfileViewController updateAvatar] No avatar url")
-//                return
-//            }
-//            let processor = RoundCornerImageProcessor(cornerRadius: 80)
-//        userPic.kf.indicatorType = IndicatorType.activity
-//        userPic.kf.setImage(
-//                with: url,
-//                placeholder: UIImage(named: "placeholder"),
-//                options: [
-//                    .processor(processor),
-//                    .cacheSerializer(FormatIndicatedCacheSerializer.png)
-//                ]
-//            ) { _ in debugPrint("Avatar installed") }
-//        }
-    
-    
     func updateAvatar(url: URL?) {
         guard let url else {
             debugPrint("[ProfileViewController updateAvatar] No avatar url")
             return
         }
         let processor = RoundCornerImageProcessor(cornerRadius: 80)
-    userPic.kf.indicatorType = IndicatorType.activity
-    userPic.kf.setImage(
+        userPic.kf.indicatorType = IndicatorType.activity
+        userPic.kf.setImage(
             with: url,
             placeholder: UIImage(named: "placeholder"),
             options: [
@@ -119,7 +86,7 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
             ]
         ) { _ in debugPrint("Avatar installed") }
     }
-
+    
     
     //MARK: Layout
     

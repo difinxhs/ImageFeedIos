@@ -18,8 +18,8 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     private let imagesListService = ImagesListService.shared
     
     func viewDidLoad() {
-            fetchNextPhotos()
-        }
+        fetchNextPhotos()
+    }
     
     func fetchNextPhotos() {
         DispatchQueue.main.async {
@@ -31,7 +31,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
             }
         }
     }
-
+    
     func getCountOfImages() -> Int {
         imagesListService.photos.count
     }

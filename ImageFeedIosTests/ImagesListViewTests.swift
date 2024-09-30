@@ -21,16 +21,16 @@ final class ImagesListViewControllerTests: XCTestCase {
 final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     var view: ImagesListViewControllerProtocol?
     var viewDidLoadCalled = false
-        var fetchNextPhotosCalled = false
-        
-        func viewDidLoad() {
-            viewDidLoadCalled = true
-            fetchNextPhotos()
-        }
-        
-        func fetchNextPhotos() {
-            fetchNextPhotosCalled = true
-        }
+    var fetchNextPhotosCalled = false
+    
+    func viewDidLoad() {
+        viewDidLoadCalled = true
+        fetchNextPhotos()
+    }
+    
+    func fetchNextPhotos() {
+        fetchNextPhotosCalled = true
+    }
     
     func getCountOfImages() -> Int {
         return 10

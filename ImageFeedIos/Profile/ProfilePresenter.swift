@@ -14,8 +14,8 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     private let profileImageService = ProfileImageService.shared
     
     init() {
-            print("[ProfilePresenter] Initialized")
-        }
+        print("[ProfilePresenter] Initialized")
+    }
     
     func viewDidLoad() {
         guard let profile = profileService.profile else { return }
@@ -23,17 +23,17 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func avatarURL() -> URL? {
-            guard let profileImageURL = ProfileImageService.shared.avatarURL else {
-                print("[ProfilePresenter avatarURL] avatarURL is nil")
-                return nil
-            }
-            guard let url = URL(string: profileImageURL) else {
-                print("[ProfilePresenter avatarURL] Failed to create URL from: \(profileImageURL)")
-                return nil
-            }
-            print("[ProfilePresenter avatarURL] url: \(url)")
-            return url
+        guard let profileImageURL = ProfileImageService.shared.avatarURL else {
+            print("[ProfilePresenter avatarURL] avatarURL is nil")
+            return nil
         }
+        guard let url = URL(string: profileImageURL) else {
+            print("[ProfilePresenter avatarURL] Failed to create URL from: \(profileImageURL)")
+            return nil
+        }
+        print("[ProfilePresenter avatarURL] url: \(url)")
+        return url
+    }
     
     func logout() {
         profileLogoutService.logout()
