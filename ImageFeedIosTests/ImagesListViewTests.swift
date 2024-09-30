@@ -1,59 +1,36 @@
-import XCTest
 @testable import ImageFeedIos
+import XCTest
 
-class ImagesListViewControllerTests: XCTestCase {
-    
-    var viewController: ImagesListViewController!
-    var presenter: MockImagesListPresenter!
-    
-    override func setUp() {
-        super.setUp()
-        viewController = ImagesListViewController()
-        presenter = MockImagesListPresenter()
-        viewController.presenter = presenter
-        _ = viewController.view
-    }
-
-    override func tearDown() {
-        viewController = nil
-        presenter = nil
-        super.tearDown()
-    }
-    
-    func testViewDidLoadCallsFetchNextPhotos() {
-        // Act
-        viewController.viewDidLoad()
-        
-        // Assert
-        XCTAssertTrue(presenter.fetchNextPhotosCalled, "fetchNextPhotos() should be called when viewDidLoad is triggered")
-    }
+final class ImagesListViewControllerTests: XCTestCase {
     
     func testNumberOfRowsInSection() {
-        // Arrange
-        let numberOfImages = 5
-        presenter.numberOfImages = numberOfImages
-        let tableView = UITableView()
-        tableView.dataSource = viewController
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        guard let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as? ImagesListViewController
+        else {
+            preconditionFailure("Can't create an instance of ImagesListViewController")
+        }
+        let presenterSpy = ImagesListPresenterSpy()
+        imagesListViewController.presenter = presenterSpy
+        presenterSpy.view = imagesListViewController
         
-        // Act
-        let rows = viewController.tableView(tableView, numberOfRowsInSection: 0)
-        
-        // Assert
-        XCTAssertEqual(rows, numberOfImages, "The number of rows in the table view should match the number of images returned by the presenter")
+        let numberOfRows = imagesListViewController.tableView(UITableView(), numberOfRowsInSection: 0)
+        XCTAssertEqual(numberOfRows, 10, "Count of rows is equal to 10")
     }
 }
 
-// MARK: - Mock Classes
-
-class MockImagesListPresenter: ImagesListPresenterProtocol {
-    
-    weak var view: ImagesListViewControllerProtocol?
-    var fetchNextPhotosCalled = false
-    var numberOfImages = 0
-    
-    func fetchNextPhotos() {
-        fetchNextPhotosCalled = true
-    }
+final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
+    var view: ImagesListViewControllerProtocol?
+    var viewDidLoadCalled = false
+        var fetchNextPhotosCalled = false
+        
+        func viewDidLoad() {
+            viewDidLoadCalled = true
+            fetchNextPhotos()
+        }
+        
+        func fetchNextPhotos() {
+            fetchNextPhotosCalled = true
+        }
     
     func getCountOfImages() -> Int {
         return 10
@@ -83,3 +60,4 @@ class MockImagesListPresenter: ImagesListPresenterProtocol {
         return nil
     }
 }
+

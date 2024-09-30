@@ -2,6 +2,7 @@ import UIKit
 
 protocol ImagesListPresenterProtocol: AnyObject {
     var view: ImagesListViewControllerProtocol? { get set }
+    func viewDidLoad()
     func fetchNextPhotos()
     func getCountOfImages() -> Int
     func getLargeImageURL(row: Int) -> String
@@ -15,6 +16,10 @@ protocol ImagesListPresenterProtocol: AnyObject {
 final class ImagesListPresenter: ImagesListPresenterProtocol {
     weak var view: ImagesListViewControllerProtocol?
     private let imagesListService = ImagesListService.shared
+    
+    func viewDidLoad() {
+            fetchNextPhotos()
+        }
     
     func fetchNextPhotos() {
         DispatchQueue.main.async {

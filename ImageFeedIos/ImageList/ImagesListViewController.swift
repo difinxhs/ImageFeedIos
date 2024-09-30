@@ -25,8 +25,10 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presenter = ImagesListPresenter()
-        presenter?.view = self
+        if presenter == nil {
+            presenter = ImagesListPresenter()
+            presenter?.view = self
+        }
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
@@ -42,8 +44,6 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         updateTableViewAnimated()
 //        imagesListService.fetchPhotosNextPage()
         presenter?.fetchNextPhotos()
-        
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
