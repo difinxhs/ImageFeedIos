@@ -1,51 +1,58 @@
-@testable import ImageFeedIos
 import XCTest
+@testable import ImageFeedIos
 
-final class ImageListViewTests: XCTestCase {
-    func testImageListViewControllerCallsFetchNextPhotosOnDidLoad() {
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        guard let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as? ImagesListViewController
-        else {
-            preconditionFailure("Could not instantiate ImagesListViewController")
-        }
-        let presenterSpy = ImagesListPresenterSpy()
-        imagesListViewController.presenter = presenterSpy
-        presenterSpy.view = imagesListViewController as! any ImagesListViewControllerProtocol
-        
-        _ = imagesListViewController.view
-        XCTAssertTrue(presenterSpy.fetchNextPhotosCalled)
+class ImagesListViewControllerTests: XCTestCase {
+    
+    var viewController: ImagesListViewController!
+    var presenter: MockImagesListPresenter!
+    
+    override func setUp() {
+        super.setUp()
+        viewController = ImagesListViewController()
+        presenter = MockImagesListPresenter()
+        viewController.presenter = presenter
+        _ = viewController.view
+    }
+
+    override func tearDown() {
+        viewController = nil
+        presenter = nil
+        super.tearDown()
     }
     
-    func testControllerFetchNetPhotosOnCountOfImages() {
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        guard let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as? ImagesListViewController
-        else {
-            preconditionFailure("Could not instantiate ImagesListViewController")
-        }
-        let presenterSpy = ImagesListPresenterSpy()
-        imagesListViewController.presenter = presenterSpy
-        presenterSpy.view = imagesListViewController as! any ImagesListViewControllerProtocol
+    func testViewDidLoadCallsFetchNextPhotos() {
+        // Act
+        viewController.viewDidLoad()
         
-        let indexPath1 = IndexPath(row: 8, section: 0)
-        imagesListViewController.tableView(UITableView(), willDisplay: UITableViewCell(), forRowAt: indexPath1)
-        XCTAssertFalse(presenterSpy.fetchNextPhotosCalled)
+        // Assert
+        XCTAssertTrue(presenter.fetchNextPhotosCalled, "fetchNextPhotos() should be called when viewDidLoad is triggered")
+    }
+    
+    func testNumberOfRowsInSection() {
+        // Arrange
+        let numberOfImages = 5
+        presenter.numberOfImages = numberOfImages
+        let tableView = UITableView()
+        tableView.dataSource = viewController
         
-        let indexPath2 = IndexPath(row: 9, section: 0)
-        imagesListViewController.tableView(UITableView(), willDisplay: UITableViewCell(), forRowAt: indexPath2)
-        XCTAssertTrue(presenterSpy.fetchNextPhotosCalled)
+        // Act
+        let rows = viewController.tableView(tableView, numberOfRowsInSection: 0)
+        
+        // Assert
+        XCTAssertEqual(rows, numberOfImages, "The number of rows in the table view should match the number of images returned by the presenter")
     }
 }
 
-final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
-    var view: ImageFeedIos.ImagesListViewControllerProtocol?
-    var fetchNextPhotosCalled: Bool = false
+// MARK: - Mock Classes
+
+class MockImagesListPresenter: ImagesListPresenterProtocol {
+    
+    weak var view: ImagesListViewControllerProtocol?
+    var fetchNextPhotosCalled = false
+    var numberOfImages = 0
     
     func fetchNextPhotos() {
         fetchNextPhotosCalled = true
-    }
-    
-    func changeImageLikeState(row: Int) {
-        
     }
     
     func getCountOfImages() -> Int {

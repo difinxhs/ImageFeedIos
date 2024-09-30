@@ -23,7 +23,7 @@ final class ProfileViewControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    func testUpdateProfileDetails_WhenCalled_ShouldUpdateLabels() {
+    func testUpdateProfileDetails() {
         let profileResult = ProfileResult(username: "@testuser", first_name: "Test", last_name: "User", bio: "This is a test bio")
         let profile = Profile(profileResult: profileResult)
         viewController.updateProfileDetails(profile: profile)
