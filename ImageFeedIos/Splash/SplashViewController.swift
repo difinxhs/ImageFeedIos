@@ -65,10 +65,25 @@ final class SplashViewController: UIViewController {
         ])
     }
     
+//    private func switchToTabBarController() {
+//        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+//        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+//            .instantiateViewController(withIdentifier: "TabBarViewController")
+//        window.rootViewController = tabBarController
+//        window.makeKeyAndVisible()
+//    }
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
+        let tabBarController: UITabBarController = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "TabBarViewController") as! UITabBarController
+        
+        if let profileNavController = tabBarController.viewControllers?[1] as? UINavigationController,
+           let profileViewController = profileNavController.topViewController as? ProfileViewController {
+            let profilePresenter: ProfilePresenterProtocol = ProfilePresenter()
+            profileViewController.presenter = profilePresenter
+            profilePresenter.view = profileViewController
+        }
+        
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }

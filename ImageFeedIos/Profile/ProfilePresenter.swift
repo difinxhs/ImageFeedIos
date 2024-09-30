@@ -11,21 +11,29 @@ final class ProfilePresenter: ProfilePresenterProtocol {
     weak var view: ProfileViewControllerProtocol?
     private let profileService = ProfileService.shared
     private let profileLogoutService = ProfileLogoutService.shared
+    private let profileImageService = ProfileImageService.shared
+    
+    init() {
+            print("[ProfilePresenter] Initialized")
+        }
     
     func viewDidLoad() {
-        let profile = profileService.profile
-        view?.updateProfile(username: profile?.username ?? "", name: profile?.name ?? "", bio: profile?.bio ?? "")
+        guard let profile = profileService.profile else { return }
+        view?.updateProfileDetails(profile: profile)
     }
     
     func avatarURL() -> URL? {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else {
-            preconditionFailure("Profile image URL is invalid")
+            guard let profileImageURL = ProfileImageService.shared.avatarURL else {
+                print("[ProfilePresenter avatarURL] avatarURL is nil")
+                return nil
+            }
+            guard let url = URL(string: profileImageURL) else {
+                print("[ProfilePresenter avatarURL] Failed to create URL from: \(profileImageURL)")
+                return nil
+            }
+            print("[ProfilePresenter avatarURL] url: \(url)")
+            return url
         }
-        return url
-    }
     
     func logout() {
         profileLogoutService.logout()
