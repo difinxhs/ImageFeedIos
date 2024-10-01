@@ -160,6 +160,7 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
             exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             exitButton.centerYAnchor.constraint(equalTo: userPic.centerYAnchor)
         ])
+        exitButton.accessibilityIdentifier = "logoutButton"
         self.exitButton = exitButton
     }
     
@@ -181,6 +182,8 @@ class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
         }
         alert.addAction(action)
         alert.addAction(dismiss)
+        action.accessibilityIdentifier = "yesAlertButton"
+        dismiss.accessibilityIdentifier = "noAlertButton"
         self.present(alert, animated: true, completion: nil)
     }
 }

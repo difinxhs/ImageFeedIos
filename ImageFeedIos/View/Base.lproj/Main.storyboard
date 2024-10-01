@@ -257,6 +257,7 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="tuE-3K-vBu">
                                         <rect key="frame" x="0.0" y="0.0" width="271" height="352"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="fullImage"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -273,6 +274,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HLc-0b-AdH">
                                 <rect key="frame" x="8" y="8" width="44" height="44"/>
+                                <accessibility key="accessibilityConfiguration" identifier="navBackButton"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="BLy-jD-Q7E"/>
                                     <constraint firstAttribute="width" secondItem="HLc-0b-AdH" secondAttribute="height" multiplier="1:1" id="row-wB-VuO"/>

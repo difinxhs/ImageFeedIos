@@ -80,14 +80,14 @@ final class ImageFeedUITests: XCTestCase {
         }
         
         cellToLike.tap()
-        let fullImage = app.scrollViews.images["full_image"]
+        let fullImage = app.scrollViews.images["fullImage"]
         XCTAssertTrue(fullImage.waitForExistence(timeout: 30))
         sleep(1)
         
         fullImage.pinch(withScale: 3, velocity: 1)
         fullImage.pinch(withScale: 0.5, velocity: -1)
         
-        let navBackButtonWhiteButton = app.buttons["nav_back_button"]
+        let navBackButtonWhiteButton = app.buttons["navBackButton"]
         navBackButtonWhiteButton.tap()
     }
     
