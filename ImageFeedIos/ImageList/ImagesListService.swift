@@ -89,6 +89,12 @@ final class ImagesListService {
         
         task?.cancel()
         
+        //ограничиваем кол-во запросов в тестах
+        let testMode =  ProcessInfo.processInfo.arguments.contains("testMode")
+        if testMode {
+            return
+        }
+        
         guard let request = makePhotosURL() else {
             assertionFailure("[ImagesListService] \(ImagesListServiceError.invalidRequest)")
             return
