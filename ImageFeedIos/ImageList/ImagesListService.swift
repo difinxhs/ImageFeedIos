@@ -91,7 +91,7 @@ final class ImagesListService {
         
         //ограничиваем кол-во запросов в тестах
         let testMode =  ProcessInfo.processInfo.arguments.contains("testMode")
-        if testMode {
+        if testMode && lastLoadedPage > 1 {
             return
         }
         

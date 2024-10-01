@@ -31,7 +31,6 @@ final class ImageFeedUITests: XCTestCase {
         
         loginTextField.tap()
         loginTextField.typeText(UserData.username)
-        webView.swipeUp()
         let doneButton = app.buttons["Done"]
         if doneButton.exists {
             doneButton.tap()
@@ -43,7 +42,6 @@ final class ImageFeedUITests: XCTestCase {
         passwordTextField.tap()
         sleep(1)
         passwordTextField.typeText(UserData.password)
-        webView.swipeUp()
         if doneButton.exists {
             doneButton.tap()
         }
