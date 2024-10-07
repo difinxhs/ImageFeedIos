@@ -1,5 +1,9 @@
 import UIKit
 
+protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+}
+
 enum ProfileImageServiceError: Error {
     case invalidRequest
 }

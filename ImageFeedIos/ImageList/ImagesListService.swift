@@ -89,6 +89,12 @@ final class ImagesListService {
         
         task?.cancel()
         
+        //ограничиваем кол-во запросов в тестах
+        let testMode =  ProcessInfo.processInfo.arguments.contains("testMode")
+        if testMode && lastLoadedPage > 1 {
+            return
+        }
+        
         guard let request = makePhotosURL() else {
             assertionFailure("[ImagesListService] \(ImagesListServiceError.invalidRequest)")
             return
@@ -133,7 +139,7 @@ final class ImagesListService {
         return dateFormatter.date(from: dateString)
     }
     
-    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Photo, Error>) -> Void) {
         guard let index = photos.firstIndex(where: { $0.id == photoId }) else {
             print("[ImagesListService] Photo not found for id: \(photoId)")
             return
@@ -170,7 +176,7 @@ final class ImagesListService {
                             isLiked: !photo.isLiked
                         )
                         self.photos[index] = newPhoto
-                        completion(.success(()))
+                        completion(.success(newPhoto))
                     }
                 } else {
                     let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1

@@ -2,12 +2,20 @@ import UIKit
 import SwiftKeychainWrapper
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
-    @IBOutlet private weak var userPic: UIImageView!
-    @IBOutlet private weak var userName: UILabel!
-    @IBOutlet private weak var userTag: UILabel!
-    @IBOutlet private weak var userDescription: UILabel!
-    @IBOutlet private weak var exitButton: UIButton!
+protocol ProfileViewControllerProtocol: AnyObject {
+    func updateProfileDetails(profile: Profile)
+    func updateAvatar(url: URL?)
+}
+
+class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
+    @IBOutlet weak var userPic: UIImageView!
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var userTag: UILabel!
+    @IBOutlet weak var userDescription: UILabel!
+    @IBOutlet weak var exitButton: UIButton!
+    
+    var presenter: ProfilePresenterProtocol!
     
     private var label: UILabel?
     
@@ -20,6 +28,13 @@ final class ProfileViewController: UIViewController {
         setupUserTag()
         setupUserDescription()
         setupExitButton()
+        
+        if presenter == nil {
+            presenter = ProfilePresenter()
+            presenter.view = self
+        }
+        
+        print("[ProfileViewController] presenter is \(presenter == nil ? "nil" : "set")")
         
         view.backgroundColor = UIColor(named: "YP Black")
         
@@ -39,33 +54,39 @@ final class ProfileViewController: UIViewController {
             ) { [weak self] _ in
                 guard let self = self else { return }
                 print("[ProfileViewController] profileImageServiceObserver is working")
-                self.updateAvatar()
+                self.updateAvatar(url: presenter?.avatarURL())
             }
-        updateAvatar()
+        if let avatarURL = presenter?.avatarURL() {
+            updateAvatar(url: avatarURL)
+        } else {
+            print("[ProfileViewController] avatarURL is nil")
+        }
     }
     
-    private func updateProfileDetails(profile: Profile) {
+    func updateProfileDetails(profile: Profile) {
         print("[ProfileViewController] func updateProfile is working")
         userTag.text = profile.username
         userName.text = profile.name
         userDescription.text = profile.bio
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        print("[ProfileViewController] ProfileImageURL: \(url)")
-        let processor = RoundCornerImageProcessor(cornerRadius: 20)
-        userPic.kf.indicatorType = .activity
+    func updateAvatar(url: URL?) {
+        guard let url else {
+            debugPrint("[ProfileViewController updateAvatar] No avatar url")
+            return
+        }
+        let processor = RoundCornerImageProcessor(cornerRadius: 80)
+        userPic.kf.indicatorType = IndicatorType.activity
         userPic.kf.setImage(
             with: url,
-            placeholder: UIImage(named: "Placeholder"),
-            options: [.processor(processor)]
-        )
-        
+            placeholder: UIImage(named: "placeholder"),
+            options: [
+                .processor(processor),
+                .cacheSerializer(FormatIndicatedCacheSerializer.png)
+            ]
+        ) { _ in debugPrint("Avatar installed") }
     }
+    
     
     //MARK: Layout
     
@@ -139,6 +160,7 @@ final class ProfileViewController: UIViewController {
             exitButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             exitButton.centerYAnchor.constraint(equalTo: userPic.centerYAnchor)
         ])
+        exitButton.accessibilityIdentifier = "logoutButton"
         self.exitButton = exitButton
     }
     
@@ -160,6 +182,8 @@ final class ProfileViewController: UIViewController {
         }
         alert.addAction(action)
         alert.addAction(dismiss)
+        action.accessibilityIdentifier = "yesAlertButton"
+        dismiss.accessibilityIdentifier = "noAlertButton"
         self.present(alert, animated: true, completion: nil)
     }
 }
